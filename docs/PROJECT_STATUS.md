@@ -32,3 +32,6 @@ The project intentionally uses plain HTML, CSS and JavaScript with no paid servi
 
 ## Rule for future changes
 Keep wallpaper data separate from rendering and UI logic. Avoid hard-coding new wallpaper cards in HTML.
+
+## Deployment
+GitHub Pages source is configured to use GitHub Actions.
