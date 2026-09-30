@@ -1,4 +1,4 @@
-const CACHE_NAME = "suhail-live-wallpapers-v9";
+const CACHE_NAME = "suhail-live-wallpapers-v12";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -22,16 +22,36 @@ self.addEventListener("activate", event => {
     caches.keys()
       .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: "window", includeUncontrolled: true }))
+      .then(clients => Promise.all(clients.map(client => {
+        if ("navigate" in client) return client.navigate(client.url).catch(() => null);
+        return null;
+      })))
   );
 });
+
+function cacheResponse(request, response) {
+  if (response && response.status === 200 && response.type !== "opaque") {
+    const copy = response.clone();
+    caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
+  }
+  return response;
+}
+
+function networkFirst(request, fallback) {
+  return fetch(request, { cache: "no-store" })
+    .then(response => cacheResponse(request, response))
+    .catch(() => caches.match(request).then(cached => cached || (fallback ? caches.match(fallback) : undefined)));
+}
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
+  const sameOrigin = url.origin === self.location.origin;
 
-  // Wallpaper catalog is intentionally online-only.
-  if (url.pathname.endsWith("/data/wallpapers.json")) {
+  // Wallpaper catalog must always be fresh and remains unavailable offline.
+  if (sameOrigin && url.pathname.endsWith("/data/wallpapers.json")) {
     event.respondWith(
       fetch(event.request, { cache: "no-store" }).catch(() => new Response(
         JSON.stringify({ offline: true }),
@@ -41,32 +61,32 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Navigation remains available offline after the first successful visit/install.
+  // Every launch checks the network first so an installed Home Screen app gets updates directly.
   if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy));
-          return response;
-        })
-        .catch(() => caches.match("./index.html"))
-    );
+    event.respondWith(networkFirst(event.request, "./index.html"));
     return;
   }
 
-  // App-shell assets use cache-first with background refresh.
+  if (sameOrigin) {
+    const path = url.pathname;
+    const mustRefresh =
+      path.endsWith("/assets/js/app.js") ||
+      path.endsWith("/assets/css/styles.css") ||
+      path.endsWith("/manifest.webmanifest") ||
+      path.includes("/assets/wallpapers/") ||
+      path.includes("/assets/images/");
+
+    if (mustRefresh) {
+      event.respondWith(networkFirst(event.request));
+      return;
+    }
+  }
+
+  // Remaining shell assets stay cache-first for reliable offline startup.
   event.respondWith(
     caches.match(event.request).then(cached => {
-      const network = fetch(event.request).then(response => {
-        if (response && response.status === 200 && response.type !== "opaque") {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-        }
-        return response;
-      }).catch(() => cached);
-
-      return cached || network;
+      if (cached) return cached;
+      return fetch(event.request).then(response => cacheResponse(event.request, response));
     })
   );
 });
