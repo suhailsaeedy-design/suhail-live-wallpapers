@@ -1,37 +1,66 @@
 # Project status
 
 ## Current phase
-Version 1 foundation is implemented.
+
+Version 2 feature expansion is implemented and deployed through the main branch.
 
 ## Included
-- Responsive mobile/desktop interface
-- Sticky navigation and mobile bottom navigation
-- 22 original procedural animated wallpaper presets
-- Categories and search
-- Local favorites
+
+- Responsive mobile and desktop interface
+- Sticky desktop header and mobile bottom navigation
+- Dark and Light themes with local preference
+- 40 online wallpaper presets across procedural and realistic-style live scenes
+- Nature, City, Places, Office and Youth scene categories
+- Existing AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury effects
+- Search and category filters while online
+- Local favorite IDs
 - Full-screen live preview
-- PNG frame export
-- Six-second live recording where the browser supports Canvas capture + MediaRecorder
+- Fixed mobile preview controls so Favorite and Close no longer overlap
+- 1290×2796 PNG export
+- Share-sheet based Save Image / Gallery flow where supported
+- Six-second live recording where Canvas capture + MediaRecorder are available
 - Share/copy-link flow
 - Installable PWA manifest
 - Offline app-shell service worker
+- Wallpaper catalog intentionally network-only
+- Automatic connection-state UI and retry behavior
+- Animated creator About page using Suhail Saeedy's portrait
 - GitHub Pages deployment workflow
-- Usage, privacy and project information screens
+- Automated syntax / JSON / required-file quality checks
 - Suhail Labs integration notes
 
-## Architecture
-The project intentionally uses plain HTML, CSS and JavaScript with no paid service and no third-party runtime dependency. Wallpaper presets live in data/wallpapers.js. The rendering engine lives in assets/js/app.js.
+## Offline design
 
-## Next expansion targets
-- More procedural effects and wallpaper packs
-- Optional generated still-wallpaper gallery
-- Additional languages
-- Dedicated accessibility controls
-- Automated browser checks
-- Optional lightweight admin/content workflow if the catalog becomes large
+Cached offline:
+- Interface shell
+- About page
+- Creator portrait
+- Usage guide
+- Theme controls
+
+Online-only:
+- Wallpaper catalog
+- Search/categories
+- Wallpaper previews
+- Favorite previews
+- Wallpaper exports
+
+The service worker must never cache `data/wallpapers.json`.
+
+## Architecture
+
+The project uses plain HTML, CSS and JavaScript with no paid runtime service.
+
+- Wallpaper metadata: `data/wallpapers.json`
+- Rendering and app state: `assets/js/app.js`
+- Visual system: `assets/css/styles.css`
+- Creator image: `assets/images/suhail-saeedy-about.webp`
+- Offline policy: `service-worker.js`
 
 ## Rule for future changes
-Keep wallpaper data separate from rendering and UI logic. Avoid hard-coding new wallpaper cards in HTML.
+
+Keep wallpaper data separate from UI/rendering logic. Maintain the online-only catalog rule unless the product requirement changes. Preserve the offline shell and avoid adding paid runtime dependencies without an explicit project decision.
 
 ## Deployment
-GitHub Pages source is configured to use GitHub Actions.
+
+GitHub Pages source uses GitHub Actions.
