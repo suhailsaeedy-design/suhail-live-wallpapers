@@ -9,8 +9,9 @@ Version 2 feature expansion is implemented and deployed through the main branch.
 - Responsive mobile and desktop interface
 - Sticky desktop header and mobile bottom navigation
 - Dark and Light themes with local preference
-- 46 online wallpaper presets; six uploaded photorealistic wallpapers are prioritized at the top of the catalog
+- 58 online wallpaper presets; six uploaded photorealistic wallpapers are prioritized at the top of the catalog
 - Photorealistic City, Office, Islamic, Nature and Places wallpapers plus Nature, City, Places, Office and Youth generated scene categories
+- Added live effects for comets, fireflies, liquid light, animated rings, snowfall and laser horizons
 - Existing AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury effects
 - Search and category filters while online
 - Local favorite IDs
