@@ -1,4 +1,4 @@
-const CACHE_NAME = "suhail-live-wallpapers-v8";
+const CACHE_NAME = "suhail-live-wallpapers-v9";
 const APP_SHELL = [
   "./",
   "./index.html",
