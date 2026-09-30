@@ -1,60 +1,94 @@
 # Suhail Live Wallpapers
 
-**Suhail Live Wallpapers** is a free, installable web app by **Suhail Labs** for original procedural live and animated wallpapers.
+**Suhail Live Wallpapers** is a free installable PWA by **Suhail Labs**, created by **Suhail Saeedy**.
 
-It is designed to work without Apple Developer, Google Play Developer, a paid API, a database, or a paid hosting service.
+The project runs on GitHub Pages and does not require Apple Developer, Google Play Developer, a paid API, a database, or paid hosting.
 
-## Features
+## Current features
 
-- 22 original procedural animated wallpaper presets
-- AMOLED, abstract, nature, space, cyber, fire, minimal, calm and other categories
-- Responsive mobile + desktop UI
-- Live canvas previews
+- 40 live wallpaper presets
+- Nature, City, Places, Office, Youth, AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury categories
+- Realistic-style animated scene presets for mountains, forests, coastlines, roads, rainy cities, offices, studios and youth/street themes
+- Full-screen live Canvas preview
 - Search and category filters
-- Favorites stored locally on the device
-- Full-screen preview mode
-- Save the current frame as PNG
-- Record a short live clip where the browser supports Canvas capture and MediaRecorder
-- Web Share / link-copy support
-- Installable PWA
-- Offline app-shell support
-- No ads, login or analytics scripts in the current version
-- GitHub Pages deployment workflow
+- Local favorites
+- Dark mode and Light mode with saved preference
+- High-resolution 1290×2796 PNG export
+- Device share-sheet integration for saving images to Photos/Gallery where supported
+- Six-second live clip recording where Canvas capture + MediaRecorder are supported
+- PWA installation
+- Offline app shell
+- Animated About page with the creator portrait
+- No login, ads, paid API, analytics script, or database in the current version
 
-## Run locally
+## Offline behavior
 
-Because the project has no build step, any static web server can serve it. Opening it through HTTPS is recommended so PWA and service-worker features work correctly.
+The installed app shell is cached after the first successful visit.
+
+The following continue to work offline:
+
+- Home interface and navigation
+- About page and creator portrait
+- How-to-use guide
+- Theme switching
+- General PWA shell
+
+The following intentionally require an internet connection:
+
+- Wallpaper catalog
+- Wallpaper search and categories
+- Favorite wallpaper previews
+- Wallpaper preview/export actions
+
+When the connection is unavailable, the UI shows a clear network message instead of displaying stale wallpaper catalog data.
+
+## Saving wallpapers to Photos / Gallery
+
+A web app cannot silently write files into a phone's Photos/Gallery library or directly change the system wallpaper.
+
+The **Save photo** action creates a high-resolution PNG. On compatible mobile browsers, the system share sheet is used so the user can choose an approved action such as **Save Image**. Other browsers receive a normal file download.
+
+The **Save live clip** action records the animated Canvas where the browser exposes Canvas capture and MediaRecorder. If the browser does not support that API, the UI instructs the user to use the phone's built-in screen recorder.
+
+## Architecture
+
+- `index.html` — SPA/PWA interface
+- `assets/css/styles.css` — responsive dark/light design system
+- `assets/js/app.js` — routing, themes, online/offline state, renderers, export logic
+- `data/wallpapers.json` — online-only wallpaper catalog
+- `assets/images/suhail-saeedy-about.webp` — creator portrait used by About
+- `service-worker.js` — offline app-shell cache and network-only wallpaper catalog policy
 
 ## Free deployment with GitHub Pages
 
-This repository includes .github/workflows/pages.yml.
+GitHub Pages is configured through `.github/workflows/pages.yml`.
 
-In the repository on GitHub, open **Settings → Pages** and set **Source** to **GitHub Actions** if it is not already enabled. Pushes to main then deploy the site through the included workflow.
-
-Expected project URL after Pages is enabled:
+Live URL:
 
 https://suhailsaeedy-design.github.io/suhail-live-wallpapers/
 
 ## Add a wallpaper
 
-Add another object to data/wallpapers.js. The UI automatically reads the catalog, builds categories, search results and cards.
+Add a new object to `data/wallpapers.json`.
 
-Each preset uses id, title, category, effect, colors and description.
+Wallpaper fields include:
 
-Supported rendering effects currently include orbits, pulse, waves, rain, grid, particles, bubbles, ribbons, stars, lightning and nebula.
-
-## Wallpaper limitation on phones
-
-A website cannot directly set the operating system wallpaper. Users preview and export media from the website, then apply it using the phone's Photos/Gallery or wallpaper settings. Live-motion support depends on the browser, device and operating-system version.
+- `id`
+- `title`
+- `category`
+- `effect`
+- `colors`
+- `description`
+- optional `scene` for realistic-style live scene presets
 
 ## Suhail Labs
 
-Integration metadata for the Suhail Labs website is in docs/SUHAIL_LABS_INTEGRATION.md.
+Integration metadata is documented in `docs/SUHAIL_LABS_INTEGRATION.md`.
 
-Project progress and architecture notes are in docs/PROJECT_STATUS.md.
+Development status is documented in `docs/PROJECT_STATUS.md`.
 
 ## License
 
-MIT License — see LICENSE.
+MIT License — see `LICENSE`.
 
 Copyright © 2026 Suhail Saeedy / Suhail Labs.
