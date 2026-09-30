@@ -1,5 +1,60 @@
 [
   {
+    "id": "real-luxury-city-loft",
+    "title": "Luxury City Loft",
+    "category": "Office",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "office",
+    "asset": "./assets/wallpapers/real-v4/luxury-city-loft.png",
+    "description": "Photorealistic luxury loft workspace overlooking a glowing city skyline at blue hour.",
+    "featured": true
+  },
+  {
+    "id": "real-grand-mosque-courtyard",
+    "title": "Grand Mosque Courtyard",
+    "category": "Islamic",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "mosque",
+    "asset": "./assets/wallpapers/real-v4/grand-mosque-courtyard.png",
+    "description": "Photorealistic grand mosque courtyard in warm sunrise light with subtle birds overhead.",
+    "featured": true
+  },
+  {
+    "id": "real-istanbul-bosphorus-sunset",
+    "title": "Istanbul Bosphorus Sunset",
+    "category": "City",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "bosphorus",
+    "asset": "./assets/wallpapers/real-v4/istanbul-bosphorus-sunset.png",
+    "description": "Photorealistic Istanbul waterfront at sunset with Bosphorus water, boats and mosque skyline.",
+    "featured": true
+  },
+  {
+    "id": "real-bioluminescent-shoreline",
+    "title": "Bioluminescent Moonlit Shoreline",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "biolum",
+    "asset": "./assets/wallpapers/real-v4/bioluminescent-moonlit-shoreline.png",
+    "description": "Photorealistic tropical shoreline under moonlight with glowing bioluminescent surf.",
+    "featured": true
+  },
+  {
+    "id": "real-chefchaouen-blue-alley",
+    "title": "Chefchaouen Blue Alley",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "flowers",
+    "asset": "./assets/wallpapers/real-v4/chefchaouen-blue-alley.png",
+    "description": "Photorealistic blue alleyway in Chefchaouen with warm sunlight, flowers and hanging fabric.",
+    "featured": true
+  },
+  {
     "id": "real-santorini-sunset",
     "title": "Santorini Sunset Pathway",
     "category": "Places",
