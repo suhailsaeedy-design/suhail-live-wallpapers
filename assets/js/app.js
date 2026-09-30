@@ -589,7 +589,7 @@
     var visual=document.createElement("div");visual.className="wall-visual";
     var canvas=document.createElement("canvas");canvas.setAttribute("aria-hidden","true");
     var overlay=document.createElement("div");overlay.className="wall-overlay";
-    var live=document.createElement("span");live.className="live-badge";live.textContent=wallpaper.realistic?"REAL • LIVE":"LIVE";
+    var live=document.createElement("span");live.className="live-badge";live.textContent=wallpaper.realistic?"REALISTIC • LIVE":"LIVE";
     var fav=document.createElement("button");fav.className="favorite-btn"+(favorites.has(wallpaper.id)?" is-favorite":"");fav.type="button";fav.textContent=favorites.has(wallpaper.id)?"♥":"♡";fav.setAttribute("aria-label","Toggle favorite");
 
     var meta=document.createElement("div");meta.className="wall-meta";
