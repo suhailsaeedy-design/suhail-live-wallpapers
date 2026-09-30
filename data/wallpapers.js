@@ -1,0 +1,22 @@
+window.WALLPAPERS = [
+  {id:"crimson-void",title:"Crimson Void",category:"AMOLED",effect:"orbits",colors:["#050307","#ff2749","#8a001d"],description:"Dark crimson light orbiting through a true-black inspired field.",featured:true},
+  {id:"violet-pulse",title:"Violet Pulse",category:"Abstract",effect:"pulse",colors:["#080611","#8f5cff","#ff4fa3"],description:"Soft violet energy rings with a neon pulse.",featured:true},
+  {id:"aurora-drift",title:"Aurora Drift",category:"Nature",effect:"waves",colors:["#02100f","#17e3b2","#6e71ff"],description:"Slow flowing aurora ribbons over a deep night sky.",featured:true},
+  {id:"cosmic-rain",title:"Cosmic Rain",category:"Space",effect:"rain",colors:["#03040b","#6aa9ff","#af5cff"],description:"Luminous starlight falling through a quiet cosmic field."},
+  {id:"neon-grid",title:"Neon Grid",category:"Cyber",effect:"grid",colors:["#02030a","#00e7ff","#744dff"],description:"A perspective grid breathing with electric blue light."},
+  {id:"ember-flow",title:"Ember Flow",category:"Fire",effect:"particles",colors:["#090301","#ff5b22","#ffca61"],description:"Floating embers rise through warm cinematic darkness."},
+  {id:"deep-ocean",title:"Deep Ocean",category:"Nature",effect:"bubbles",colors:["#01101a","#009ee8","#2effd1"],description:"Cool bubbles drift upward through a deep blue current."},
+  {id:"rose-ribbons",title:"Rose Ribbons",category:"Abstract",effect:"ribbons",colors:["#0d0309","#ff3d87","#ff9ac8"],description:"Silky rose light trails sweep across a dark canvas."},
+  {id:"star-trails",title:"Star Trails",category:"Space",effect:"stars",colors:["#020208","#ffffff","#7f74ff"],description:"Slow rotating star trails inspired by long-exposure night skies."},
+  {id:"electric-storm",title:"Electric Storm",category:"Cyber",effect:"lightning",colors:["#02030a","#9b75ff","#2fe8ff"],description:"Abstract electric flashes illuminate a deep violet atmosphere."},
+  {id:"mint-orbit",title:"Mint Orbit",category:"Minimal",effect:"orbits",colors:["#03100d","#48ffd0","#d8fff5"],description:"Minimal mint rings moving in calm orbital paths."},
+  {id:"solar-flare",title:"Solar Flare",category:"Space",effect:"pulse",colors:["#100300","#ff5c20","#ffd36a"],description:"A glowing solar core sends warm energy through the darkness."},
+  {id:"digital-rain",title:"Digital Rain",category:"Cyber",effect:"rain",colors:["#010803","#41ff7b","#0a7b35"],description:"Abstract green light streams with a futuristic data-rain feel."},
+  {id:"ice-waves",title:"Ice Waves",category:"Minimal",effect:"waves",colors:["#031017","#9eeeff","#4377ff"],description:"Clean frozen-blue waves glide through a glassy night scene."},
+  {id:"magenta-dust",title:"Magenta Dust",category:"AMOLED",effect:"particles",colors:["#050106","#ff3cc8","#7524ff"],description:"Bright magenta particles float through a near-black background."},
+  {id:"golden-night",title:"Golden Night",category:"Luxury",effect:"stars",colors:["#090704","#ffd66e","#6f4d13"],description:"Fine golden points rotate gently across a black field."},
+  {id:"lava-lines",title:"Lava Lines",category:"Fire",effect:"ribbons",colors:["#0d0200","#ff3b13","#ff9e2c"],description:"Molten light ribbons bend and flow through volcanic darkness."},
+  {id:"sky-bubbles",title:"Sky Bubbles",category:"Calm",effect:"bubbles",colors:["#05111f","#65b8ff","#d2edff"],description:"Soft glowing bubbles float upward in a calm midnight sky."},
+  {id:"red-signal",title:"Red Signal",category:"AMOLED",effect:"grid",colors:["#050203","#ff213f","#71101f"],description:"A sharp red perspective field made for dark screens."},
+  {id:"dream-nebula",title:"Dream Nebula",category:"Space",effect:"nebula",colors:["#070415","#a159ff","#ff5fa2"],description:"Layered violet and pink clouds drift like a distant nebula."}
+];
