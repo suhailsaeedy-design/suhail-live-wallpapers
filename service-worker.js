@@ -1,10 +1,10 @@
-const CACHE_NAME = "suhail-live-wallpapers-v12";
+const CACHE_NAME = "suhail-live-wallpapers-v13";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./assets/css/styles.css",
-  "./assets/js/app.js",
+  "./assets/css/styles.css?v=13",
+  "./assets/js/app.js?v=13",
   "./assets/icons/icon.svg",
   "./assets/images/suhail-saeedy-about-approved.jpeg"
 ];
@@ -22,15 +22,10 @@ self.addEventListener("activate", event => {
     caches.keys()
       .then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
       .then(() => self.clients.claim())
-      .then(() => self.clients.matchAll({ type: "window", includeUncontrolled: true }))
-      .then(clients => Promise.all(clients.map(client => {
-        if ("navigate" in client) return client.navigate(client.url).catch(() => null);
-        return null;
-      })))
   );
 });
 
-function cacheResponse(request, response) {
+function remember(request, response) {
   if (response && response.status === 200 && response.type !== "opaque") {
     const copy = response.clone();
     caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
@@ -38,10 +33,10 @@ function cacheResponse(request, response) {
   return response;
 }
 
-function networkFirst(request, fallback) {
+function networkFirst(request, fallbackUrl) {
   return fetch(request, { cache: "no-store" })
-    .then(response => cacheResponse(request, response))
-    .catch(() => caches.match(request).then(cached => cached || (fallback ? caches.match(fallback) : undefined)));
+    .then(response => remember(request, response))
+    .catch(() => caches.match(request).then(cached => cached || (fallbackUrl ? caches.match(fallbackUrl) : undefined)));
 }
 
 self.addEventListener("fetch", event => {
@@ -50,7 +45,6 @@ self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
   const sameOrigin = url.origin === self.location.origin;
 
-  // Wallpaper catalog must always be fresh and remains unavailable offline.
   if (sameOrigin && url.pathname.endsWith("/data/wallpapers.json")) {
     event.respondWith(
       fetch(event.request, { cache: "no-store" }).catch(() => new Response(
@@ -61,7 +55,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Every launch checks the network first so an installed Home Screen app gets updates directly.
   if (event.request.mode === "navigate") {
     event.respondWith(networkFirst(event.request, "./index.html"));
     return;
@@ -69,24 +62,20 @@ self.addEventListener("fetch", event => {
 
   if (sameOrigin) {
     const path = url.pathname;
-    const mustRefresh =
+    const freshAsset =
       path.endsWith("/assets/js/app.js") ||
       path.endsWith("/assets/css/styles.css") ||
       path.endsWith("/manifest.webmanifest") ||
       path.includes("/assets/wallpapers/") ||
       path.includes("/assets/images/");
 
-    if (mustRefresh) {
+    if (freshAsset) {
       event.respondWith(networkFirst(event.request));
       return;
     }
   }
 
-  // Remaining shell assets stay cache-first for reliable offline startup.
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-      return fetch(event.request).then(response => cacheResponse(event.request, response));
-    })
+    caches.match(event.request).then(cached => cached || fetch(event.request).then(response => remember(event.request, response)))
   );
 });
