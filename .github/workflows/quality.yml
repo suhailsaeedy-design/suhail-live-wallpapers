@@ -16,11 +16,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Check JavaScript syntax
         run: |
           node --check assets/js/app.js
-          node --check data/wallpapers.js
           node --check service-worker.js
+
       - name: Verify required project files
         run: |
           test -f index.html
@@ -28,6 +29,15 @@ jobs:
           test -f assets/css/styles.css
           test -f assets/js/app.js
           test -f assets/icons/icon.svg
-          test -f data/wallpapers.js
-      - name: Validate manifest JSON
-        run: node -e "JSON.parse(require('fs').readFileSync('manifest.webmanifest','utf8')); console.log('Manifest valid')"
+          test -f assets/images/suhail-saeedy-about.webp
+          test -f data/wallpapers.json
+
+      - name: Validate JSON
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('manifest.webmanifest','utf8')); console.log('Manifest valid')"
+          node -e "const x=JSON.parse(require('fs').readFileSync('data/wallpapers.json','utf8')); if(!Array.isArray(x) || x.length < 40) process.exit(1); console.log('Wallpaper catalog valid:', x.length)"
+
+      - name: Check offline catalog rule
+        run: |
+          grep -q "wallpapers.json" service-worker.js
+          grep -q "cache: \"no-store\"" service-worker.js
