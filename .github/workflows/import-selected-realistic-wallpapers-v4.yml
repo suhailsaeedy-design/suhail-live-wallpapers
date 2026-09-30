@@ -1,0 +1,34 @@
+name: Import selected realistic wallpapers v4
+on:
+  push:
+    paths:
+      - '.github/workflows/import-selected-realistic-wallpapers-v4.yml'
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download five selected wallpapers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/wallpapers/real-v4
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/41f16954-3e45-4c28-861d-7c589ff99be8.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzg3YmQyMDg5YjM2NGI5MiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk1MTgxNn0.aF5dC2up2mbSxHUu1U_KKeccCqSyC3LZ2ee_OO4GYOc' -o assets/wallpapers/real-v4/luxury-city-loft.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/70b1a55a-24e3-4072-8fc1-5d8ab516ee89.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzk5YzFjNTk2YjQwMTM0YiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDkyMzYwOX0.aqHCiX49Z-x7IrXH4f8a5vKeXzleiOpvNWg_I6HOkT4' -o assets/wallpapers/real-v4/grand-mosque-courtyard.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/56b89420-1acc-42d0-8f7f-20140a99112e.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzFiMDIwZjA5OWNjMzY1ZSIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDkzODM1Mn0.QclNknVIXyPKPEsYvXVKkqKNW-9Xb2rqkQiamq-aSEo' -o assets/wallpapers/real-v4/istanbul-bosphorus-sunset.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/0949cd04-c7de-407e-8bb7-7e1734f767c4.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNTg4MGRjM2VmOTUxYWM1NyIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk1NTE5OH0.nnrGbYzViNSYhA48jgfFOxKHuLsgK0Fw-1LqQ1LkoRw' -o assets/wallpapers/real-v4/bioluminescent-moonlit-shoreline.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/fd2ea09d-8d4f-4e66-9096-b2dc1b12efa7.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMmU5OGRjMzI4YjlhOGU5MyIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDkyMTc3OH0.Ahg6hCvJc50PVL7DG_8JqLtGUqMIWDDtm_NXKNOTiGg' -o assets/wallpapers/real-v4/chefchaouen-blue-alley.png
+          file assets/wallpapers/real-v4/*.png
+      - name: Commit selected wallpapers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/wallpapers/real-v4
+          git diff --cached --quiet && exit 0
+          git commit -m "Add five selected realistic wallpapers"
+          git pull --rebase origin main
+          git push
