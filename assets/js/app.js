@@ -666,6 +666,29 @@
       case "coast":
         waterShimmer(.46,1,false);
         break;
+      case "bosphorus":
+        waterShimmer(.54,1,true);
+        birds(7);
+        break;
+      case "biolum":
+        waterShimmer(.54,1,false);
+        ctx.save();
+        ctx.globalCompositeOperation="screen";
+        for(var bg=0;bg<8;bg+=1){
+          var by=h*(.62+bg*.042)+Math.sin(time*.0013+bg)*2;
+          ctx.beginPath();
+          for(var bx=-20;bx<=w+20;bx+=14){
+            var bpy=by+Math.sin(bx*.04+time*.0017+bg*.7)*1.6;
+            if(bx===-20)ctx.moveTo(bx,bpy);else ctx.lineTo(bx,bpy);
+          }
+          ctx.strokeStyle="rgba(45,191,255,"+(.030+bg*.004)+")";
+          ctx.lineWidth=.8;ctx.shadowBlur=7;ctx.shadowColor="#24bfff";ctx.stroke();
+        }
+        ctx.restore();
+        break;
+      case "flowers":
+        fallingPetals(.04,1,22,"rgba(248,76,143,.26)","rgba(255,188,216,.18)");
+        break;
       case "iceland":
         waterShimmer(.62,1,false);
         aurora();
@@ -1004,7 +1027,7 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=15",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=16",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
