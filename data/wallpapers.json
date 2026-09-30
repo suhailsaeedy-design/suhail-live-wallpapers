@@ -1,5 +1,71 @@
 [
   {
+    "id": "real-santorini-sunset",
+    "title": "Santorini Sunset Pathway",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "santorini",
+    "asset": "./assets/wallpapers/real-v3/santorini-sunset-pathway.png",
+    "description": "Photorealistic Santorini cliffside pathway with blue domes, flowers and a glowing Aegean sunset.",
+    "featured": true
+  },
+  {
+    "id": "real-dubai-desert-camp",
+    "title": "Dubai Desert Twilight Camp",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "camp",
+    "asset": "./assets/wallpapers/real-v3/dubai-desert-twilight-camp.png",
+    "description": "Photorealistic luxury desert camp at twilight with lanterns, warm firelight and a distant city skyline.",
+    "featured": true
+  },
+  {
+    "id": "real-swiss-alpine-village",
+    "title": "Swiss Alpine Village Sunrise",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "alpine",
+    "asset": "./assets/wallpapers/real-v3/swiss-alpine-village-sunrise.png",
+    "description": "Photorealistic alpine lakeside village with snowy peaks, clear reflections and sunrise mist.",
+    "featured": true
+  },
+  {
+    "id": "real-venice-moonlit-canal",
+    "title": "Venice Moonlit Canal",
+    "category": "City",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "venice",
+    "asset": "./assets/wallpapers/real-v3/venice-moonlit-canal.png",
+    "description": "Photorealistic moonlit Venice canal with glowing lamps, gondolas and shimmering reflections.",
+    "featured": true
+  },
+  {
+    "id": "real-cappadocia-balloons",
+    "title": "Cappadocia Balloon Sunrise",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "balloons",
+    "asset": "./assets/wallpapers/real-v3/cappadocia-balloon-sunrise.png",
+    "description": "Photorealistic Cappadocia valley filled with hot-air balloons in warm sunrise light.",
+    "featured": true
+  },
+  {
+    "id": "real-iceland-aurora",
+    "title": "Iceland Aurora Black Sand",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "livePreset": "iceland",
+    "asset": "./assets/wallpapers/real-v3/iceland-aurora-black-sand.png",
+    "description": "Photorealistic aurora over black-sand shoreline, sea stacks and reflective Atlantic surf.",
+    "featured": true
+  },
+  {
     "id": "real-aurora-snowy-cabin",
     "title": "Aurora Snowy Cabin",
     "category": "Nature",
@@ -7,7 +73,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/aurora-snowy-cabin.png",
     "description": "Photorealistic aurora over a snowy alpine cabin, frozen lake and mountain reflections.",
-    "featured": true
+    "featured": true,
+    "livePreset": "aurora"
   },
   {
     "id": "real-tropical-lagoon-sunrise",
@@ -17,7 +84,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/tropical-lagoon-sunrise.png",
     "description": "Photorealistic tropical island lagoon with turquoise water, palms and a golden sunrise.",
-    "featured": true
+    "featured": true,
+    "livePreset": "lagoon"
   },
   {
     "id": "real-lavender-golden-hour",
@@ -27,7 +95,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/lavender-golden-hour.png",
     "description": "Photorealistic lavender fields stretching toward mountains beneath a warm golden-hour sky.",
-    "featured": true
+    "featured": true,
+    "livePreset": "lavender"
   },
   {
     "id": "real-skyline-reading-lounge",
@@ -37,7 +106,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/skyline-reading-lounge.png",
     "description": "Photorealistic luxury reading lounge with warm interior light and a panoramic evening skyline.",
-    "featured": true
+    "featured": true,
+    "livePreset": "office"
   },
   {
     "id": "real-grand-canyon-golden-river",
@@ -47,7 +117,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/grand-canyon-golden-river.png",
     "description": "Photorealistic canyon landscape with a winding river illuminated by a dramatic sunset.",
-    "featured": true
+    "featured": true,
+    "livePreset": "canyon"
   },
   {
     "id": "real-sakura-koi-garden",
@@ -57,7 +128,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real-v2/sakura-koi-garden.png",
     "description": "Photorealistic Japanese garden with cherry blossoms, koi pond, bridge and morning light.",
-    "featured": true
+    "featured": true,
+    "livePreset": "garden"
   },
   {
     "id": "real-neon-city-rooftop",
@@ -67,7 +139,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/neon-city-rooftop.jpeg",
     "description": "Photorealistic rainy neon rooftop overlooking a modern city at night.",
-    "featured": true
+    "featured": true,
+    "livePreset": "raincity"
   },
   {
     "id": "real-sunset-city-office",
@@ -77,7 +150,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/sunset-city-office.jpeg",
     "description": "Photorealistic modern office with a warm sunset skyline through floor-to-ceiling windows.",
-    "featured": true
+    "featured": true,
+    "livePreset": "office"
   },
   {
     "id": "real-medina-golden-hour",
@@ -87,7 +161,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/medina-golden-hour.jpeg",
     "description": "Photorealistic golden-hour view inspired by Al-Masjid an-Nabawi in Medina.",
-    "featured": true
+    "featured": true,
+    "livePreset": "mosque"
   },
   {
     "id": "real-mecca-tawaf-night",
@@ -97,7 +172,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/mecca-tawaf-night.jpeg",
     "description": "Photorealistic night view of the Kaaba with worshippers performing tawaf.",
-    "featured": true
+    "featured": true,
+    "livePreset": "tawaf"
   },
   {
     "id": "real-coastal-highway-sunset",
@@ -107,7 +183,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/coastal-highway-sunset.jpeg",
     "description": "Photorealistic coastal highway curving above the ocean during a vivid sunset.",
-    "featured": true
+    "featured": true,
+    "livePreset": "coast"
   },
   {
     "id": "real-golden-desert-highway",
@@ -117,7 +194,8 @@
     "realistic": true,
     "asset": "./assets/wallpapers/real/golden-desert-highway.jpeg",
     "description": "Photorealistic long highway through mountain desert scenery under a golden sunset.",
-    "featured": true
+    "featured": true,
+    "livePreset": "road"
   },
   {
     "id": "meteor-blue",
