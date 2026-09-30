@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07070b">
+  <meta name="description" content="Suhail Live Wallpapers — free animated and still wallpapers by Suhail Labs.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Suhail Walls">
+  <title>Suhail Live Wallpapers — Suhail Labs</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <noscript><div class="noscript">JavaScript is required for the live wallpaper previews.</div></noscript>
+
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Suhail Live Wallpapers home">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span class="brand-copy"><strong>Suhail Live Wallpapers</strong><small>by Suhail Labs</small></span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <button class="nav-link is-active" data-route="home">Discover</button>
+      <button class="nav-link" data-route="favorites">Favorites</button>
+      <button class="nav-link" data-route="how">How to use</button>
+      <button class="nav-link" data-route="about">About</button>
+    </nav>
+
+    <button id="installBtn" class="button button-ghost install-button" hidden>Install</button>
+  </header>
+
+  <main>
+    <section id="homeView" class="view is-active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">FREE • ANIMATED • INSTALLABLE</span>
+          <h1>Make your screen feel <span>alive.</span></h1>
+          <p>Explore original animated wallpapers, preview them instantly, save a frame, record supported live previews, and keep your favorites — no account required.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="exploreBtn">Explore wallpapers</button>
+            <button class="button button-secondary" data-route="how">How it works</button>
+          </div>
+          <div class="hero-stats" aria-label="Project highlights">
+            <span><strong id="wallpaperCount">0</strong> wallpapers</span>
+            <span><strong>0</strong> ads</span>
+            <span><strong>100%</strong> free</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="phone-frame">
+            <canvas id="heroCanvas"></canvas>
+            <div class="phone-glow"></div>
+            <span class="phone-time">09:41</span>
+            <span class="phone-label">LIVE</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="catalog" id="catalog">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">COLLECTION</span>
+            <h2>Find your next wallpaper</h2>
+          </div>
+          <p id="resultsLabel" class="muted"></p>
+        </div>
+
+        <div class="controls">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search wallpapers…" autocomplete="off">
+          </label>
+          <div id="categoryChips" class="chips" aria-label="Wallpaper categories"></div>
+        </div>
+
+        <div id="wallpaperGrid" class="wallpaper-grid" aria-live="polite"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-icon">✦</div>
+          <h3>No wallpapers found</h3>
+          <p>Try a different search or category.</p>
+        </div>
+      </section>
+    </section>
+
+    <section id="favoritesView" class="view">
+      <div class="page-intro">
+        <span class="eyebrow">YOUR COLLECTION</span>
+        <h1>Favorites</h1>
+        <p>Your favorites stay on this device using local storage.</p>
+      </div>
+      <div id="favoritesGrid" class="wallpaper-grid"></div>
+      <div id="favoritesEmpty" class="empty-state" hidden>
+        <div class="empty-icon">♡</div>
+        <h3>No favorites yet</h3>
+        <p>Tap the heart on any wallpaper to save it here.</p>
+        <button class="button button-primary" data-route="home">Browse wallpapers</button>
+      </div>
+    </section>
+
+    <section id="howView" class="view">
+      <div class="page-intro">
+        <span class="eyebrow">QUICK GUIDE</span>
+        <h1>How to use</h1>
+        <p>A website cannot directly change your phone's system wallpaper. Suhail Live Wallpapers gives you a safe preview and export workflow instead.</p>
+      </div>
+      <div class="guide-grid">
+        <article class="guide-card">
+          <span class="guide-number">01</span>
+          <h2>Open a wallpaper</h2>
+          <p>Tap any wallpaper card to open the full-screen animated preview. Rotate your phone if you want to compare portrait and landscape.</p>
+        </article>
+        <article class="guide-card">
+          <span class="guide-number">02</span>
+          <h2>Save or record</h2>
+          <p>Use <strong>Save frame</strong> for a high-quality still image. On browsers that support canvas recording, use <strong>Record live</strong>. If live recording is unavailable, use your phone's built-in screen recorder.</p>
+        </article>
+        <article class="guide-card">
+          <span class="guide-number">03</span>
+          <h2>Set it on your device</h2>
+          <p>Open the saved media in your phone's Photos/Gallery or wallpaper settings. Live-motion wallpaper support depends on the device and operating-system version.</p>
+        </article>
+        <article class="guide-card">
+          <span class="guide-number">04</span>
+          <h2>Install this web app</h2>
+          <p>On supported browsers, use the Install button. On iPhone, use the browser Share menu and choose <strong>Add to Home Screen</strong> to launch it like an app.</p>
+        </article>
+      </div>
+      <div class="privacy-note">
+        <strong>Privacy first.</strong>
+        <span>Favorites and preferences stay in your browser. This version has no login, no ads, and no tracking scripts.</span>
+      </div>
+    </section>
+
+    <section id="aboutView" class="view">
+      <div class="page-intro">
+        <span class="eyebrow">SUHAIL LABS PROJECT</span>
+        <h1>Beautiful motion, without an app store.</h1>
+        <p>Suhail Live Wallpapers is a free, installable web project focused on original procedural wallpapers. It is designed to work on modern mobile and desktop browsers without requiring a paid app-store developer account.</p>
+      </div>
+      <div class="about-panel">
+        <div>
+          <h2>Built to stay simple</h2>
+          <p>The project uses plain HTML, CSS and JavaScript with no paid API and no framework dependency. New wallpaper presets can be added from one data file without rebuilding the interface.</p>
+        </div>
+        <div class="about-badges">
+          <span>PWA</span><span>Offline-ready</span><span>Responsive</span><span>Open source</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="mobile-nav-item is-active" data-route="home"><span>⌂</span><small>Discover</small></button>
+    <button class="mobile-nav-item" data-route="favorites"><span>♡</span><small>Favorites</small></button>
+    <button class="mobile-nav-item" data-route="how"><span>?</span><small>How to use</small></button>
+    <button class="mobile-nav-item" data-route="about"><span>◇</span><small>About</small></button>
+  </nav>
+
+  <div id="previewModal" class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="previewTitle" hidden>
+    <div class="preview-backdrop" data-close-preview></div>
+    <div class="preview-shell">
+      <button class="icon-button close-button" data-close-preview aria-label="Close preview">×</button>
+      <div class="preview-stage-wrap">
+        <canvas id="previewCanvas" class="preview-canvas"></canvas>
+        <div class="preview-hud">
+          <span class="live-pill"><i></i> LIVE PREVIEW</span>
+          <button id="previewFavoriteBtn" class="icon-button favorite-large" aria-label="Toggle favorite">♡</button>
+        </div>
+      </div>
+      <div class="preview-info">
+        <div>
+          <span id="previewCategory" class="eyebrow"></span>
+          <h2 id="previewTitle"></h2>
+          <p id="previewDescription" class="muted"></p>
+        </div>
+        <div class="preview-actions">
+          <button id="saveFrameBtn" class="button button-primary">Save frame</button>
+          <button id="recordBtn" class="button button-secondary">Record live</button>
+          <button id="shareBtn" class="button button-ghost">Share</button>
+        </div>
+        <p id="recordHint" class="microcopy">Live recording support varies by browser. A still image is always available.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="./data/wallpapers.js"></script>
+  <script src="./assets/js/app.js"></script>
+</body>
+</html>
