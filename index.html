@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#07070b">
-  <meta name="description" content="Suhail Live Wallpapers — free animated and still wallpapers by Suhail Labs.">
+  <meta name="description" content="Suhail Live Wallpapers — free animated wallpapers by Suhail Labs.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Suhail Walls">
@@ -14,10 +14,16 @@
   <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
-  <noscript><div class="noscript">JavaScript is required for the live wallpaper previews.</div></noscript>
+  <noscript><div class="noscript">JavaScript is required for live wallpaper previews.</div></noscript>
+
+  <div id="offlineBar" class="offline-bar" hidden>
+    <span class="offline-dot" aria-hidden="true"></span>
+    <strong>Offline mode</strong>
+    <span>The app shell, About and guides still work. Wallpapers and search need an internet connection.</span>
+  </div>
 
   <header class="site-header">
-    <a class="brand" href="#home" aria-label="Suhail Live Wallpapers home">
+    <a class="brand" href="#home" data-route="home" aria-label="Suhail Live Wallpapers home">
       <span class="brand-mark" aria-hidden="true">S</span>
       <span class="brand-copy"><strong>Suhail Live Wallpapers</strong><small>by Suhail Labs</small></span>
     </a>
@@ -29,7 +35,13 @@
       <button class="nav-link" data-route="about">About</button>
     </nav>
 
-    <button id="installBtn" class="button button-ghost install-button" hidden>Install</button>
+    <div class="header-actions">
+      <span id="networkPill" class="network-pill" title="Network status"><i></i><span>Online</span></span>
+      <button id="themeToggle" class="icon-text-button" type="button" aria-label="Switch theme" title="Switch theme">
+        <span class="theme-icon" aria-hidden="true">☀</span><span class="theme-label">Light</span>
+      </button>
+      <button id="installBtn" class="button button-ghost install-button" hidden>Install</button>
+    </div>
   </header>
 
   <main>
@@ -38,17 +50,18 @@
         <div class="hero-copy">
           <span class="eyebrow">FREE • ANIMATED • INSTALLABLE</span>
           <h1>Make your screen feel <span>alive.</span></h1>
-          <p>Explore original animated wallpapers, preview them instantly, save a frame, record supported live previews, and keep your favorites — no account required.</p>
+          <p>Explore live wallpapers made for modern phones — from nature and city scenes to dark, youth, office, space and abstract styles.</p>
           <div class="hero-actions">
             <button class="button button-primary" id="exploreBtn">Explore wallpapers</button>
             <button class="button button-secondary" data-route="how">How it works</button>
           </div>
           <div class="hero-stats" aria-label="Project highlights">
-            <span><strong id="wallpaperCount">0</strong> wallpapers</span>
+            <span><strong id="wallpaperCount">—</strong> wallpapers</span>
             <span><strong>0</strong> ads</span>
             <span><strong>100%</strong> free</span>
           </div>
         </div>
+
         <div class="hero-art" aria-hidden="true">
           <div class="phone-frame">
             <canvas id="heroCanvas"></canvas>
@@ -68,12 +81,22 @@
           <p id="resultsLabel" class="muted"></p>
         </div>
 
-        <div class="controls">
+        <div class="controls" id="onlineControls">
           <label class="search-box">
             <span aria-hidden="true">⌕</span>
             <input id="searchInput" type="search" placeholder="Search wallpapers…" autocomplete="off">
           </label>
           <div id="categoryChips" class="chips" aria-label="Wallpaper categories"></div>
+        </div>
+
+        <div id="catalogOffline" class="network-state" hidden>
+          <div class="network-state-icon" aria-hidden="true">⌁</div>
+          <div>
+            <span class="eyebrow">INTERNET REQUIRED</span>
+            <h3>Wallpapers are unavailable offline</h3>
+            <p>The website itself still works offline, but wallpaper browsing, search, favorites previews and downloads require a network connection.</p>
+            <button id="retryNetworkBtn" class="button button-primary" type="button">Try again</button>
+          </div>
         </div>
 
         <div id="wallpaperGrid" class="wallpaper-grid" aria-live="polite"></div>
@@ -89,8 +112,18 @@
       <div class="page-intro">
         <span class="eyebrow">YOUR COLLECTION</span>
         <h1>Favorites</h1>
-        <p>Your favorites stay on this device using local storage.</p>
+        <p>Your favorite IDs are stored on this device. Their live previews load when you are online.</p>
       </div>
+
+      <div id="favoritesOffline" class="network-state" hidden>
+        <div class="network-state-icon" aria-hidden="true">♡</div>
+        <div>
+          <span class="eyebrow">OFFLINE</span>
+          <h3>Connect to load favorite wallpapers</h3>
+          <p>Your favorite choices are still saved locally; the wallpaper content itself is online-only.</p>
+        </div>
+      </div>
+
       <div id="favoritesGrid" class="wallpaper-grid"></div>
       <div id="favoritesEmpty" class="empty-state" hidden>
         <div class="empty-icon">♡</div>
@@ -104,50 +137,91 @@
       <div class="page-intro">
         <span class="eyebrow">QUICK GUIDE</span>
         <h1>How to use</h1>
-        <p>A website cannot directly change your phone's system wallpaper. Suhail Live Wallpapers gives you a safe preview and export workflow instead.</p>
+        <p>Suhail Live Wallpapers works as an installable website. The website cannot silently change system wallpaper or write directly into Photos/Gallery, so saving always uses the device's approved browser/share controls.</p>
       </div>
+
       <div class="guide-grid">
         <article class="guide-card">
           <span class="guide-number">01</span>
           <h2>Open a wallpaper</h2>
-          <p>Tap any wallpaper card to open the full-screen animated preview. Rotate your phone if you want to compare portrait and landscape.</p>
+          <p>Tap a card to open the full-screen animated preview. Live scenes use real-time Canvas motion, so they remain smooth and lightweight.</p>
         </article>
+
         <article class="guide-card">
           <span class="guide-number">02</span>
-          <h2>Save or record</h2>
-          <p>Use <strong>Save frame</strong> for a high-quality still image. On browsers that support canvas recording, use <strong>Record live</strong>. If live recording is unavailable, use your phone's built-in screen recorder.</p>
+          <h2>Save to Photos / Gallery</h2>
+          <p>Tap <strong>Save photo</strong>. On supported iPhone and Android browsers, the system share sheet opens so you can choose <strong>Save Image</strong> or a similar gallery action. Other browsers download the PNG file.</p>
         </article>
+
         <article class="guide-card">
           <span class="guide-number">03</span>
-          <h2>Set it on your device</h2>
-          <p>Open the saved media in your phone's Photos/Gallery or wallpaper settings. Live-motion wallpaper support depends on the device and operating-system version.</p>
+          <h2>Save live motion</h2>
+          <p>Tap <strong>Save live clip</strong> where Canvas recording is supported. If the browser cannot record the live canvas, use the phone's built-in screen recorder. Android launchers may accept video wallpaper; iPhone live-wallpaper behavior depends on the iOS version and media format.</p>
         </article>
+
         <article class="guide-card">
           <span class="guide-number">04</span>
-          <h2>Install this web app</h2>
-          <p>On supported browsers, use the Install button. On iPhone, use the browser Share menu and choose <strong>Add to Home Screen</strong> to launch it like an app.</p>
+          <h2>Install & use offline</h2>
+          <p>On iPhone, use Share → <strong>Add to Home Screen</strong>. The interface, About page and this guide are cached for offline use. Wallpaper browsing and search intentionally remain online-only so you always get the latest collection.</p>
         </article>
       </div>
+
       <div class="privacy-note">
         <strong>Privacy first.</strong>
-        <span>Favorites and preferences stay in your browser. This version has no login, no ads, and no tracking scripts.</span>
+        <span>Favorites and theme preference stay in your browser. There is no account requirement and no tracking script in this version.</span>
       </div>
     </section>
 
     <section id="aboutView" class="view">
-      <div class="page-intro">
-        <span class="eyebrow">SUHAIL LABS PROJECT</span>
-        <h1>Beautiful motion, without an app store.</h1>
-        <p>Suhail Live Wallpapers is a free, installable web project focused on original procedural wallpapers. It is designed to work on modern mobile and desktop browsers without requiring a paid app-store developer account.</p>
+      <div class="about-hero">
+        <div class="about-copy">
+          <span class="eyebrow">CREATOR • SUHAIL LABS</span>
+          <h1>Built by <span>Suhail Saeedy.</span></h1>
+          <p>Suhail Live Wallpapers is a learning and creative utility project from Suhail Labs — designed to turn a normal browser into a polished wallpaper experience without requiring a paid app-store developer account.</p>
+
+          <div class="creator-meta">
+            <div><small>Creator</small><strong>Suhail Saeedy</strong></div>
+            <div><small>Project</small><strong>Suhail Live Wallpapers</strong></div>
+            <div><small>Studio</small><strong>Suhail Labs</strong></div>
+          </div>
+
+          <div class="about-badges">
+            <span>PWA</span><span>Offline shell</span><span>Responsive</span><span>Open source</span><span>No paid API</span>
+          </div>
+        </div>
+
+        <figure class="creator-portrait" aria-label="Portrait of Suhail Saeedy">
+          <div class="portrait-orbit orbit-one"></div>
+          <div class="portrait-orbit orbit-two"></div>
+          <div class="portrait-glow"></div>
+          <div class="portrait-frame">
+            <img src="./assets/images/suhail-saeedy-about.webp" alt="Suhail Saeedy" width="720" height="1178">
+            <div class="portrait-scan" aria-hidden="true"></div>
+            <div class="portrait-vignette" aria-hidden="true"></div>
+            <figcaption>
+              <span class="status-dot"></span>
+              <div><strong>Suhail Saeedy</strong><small>Creator • Suhail Labs</small></div>
+            </figcaption>
+          </div>
+        </figure>
       </div>
-      <div class="about-panel">
-        <div>
-          <h2>Built to stay simple</h2>
-          <p>The project uses plain HTML, CSS and JavaScript with no paid API and no framework dependency. New wallpaper presets can be added from one data file without rebuilding the interface.</p>
-        </div>
-        <div class="about-badges">
-          <span>PWA</span><span>Offline-ready</span><span>Responsive</span><span>Open source</span>
-        </div>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <span class="eyebrow">THE IDEA</span>
+          <h2>One free web experience.</h2>
+          <p>The project is built with standard web technology so it can run from GitHub Pages, install to a home screen, and stay easy to maintain without a database or paid backend.</p>
+        </article>
+        <article class="about-card">
+          <span class="eyebrow">THE EXPERIENCE</span>
+          <h2>Motion that feels native.</h2>
+          <p>Animated Canvas scenes, responsive controls, dark/light themes, full-screen previews, local favorites and device-approved export flows make the website feel close to a dedicated mobile app.</p>
+        </article>
+        <article class="about-card">
+          <span class="eyebrow">OFFLINE DESIGN</span>
+          <h2>Useful even without internet.</h2>
+          <p>The installed shell, creator page and usage guide remain available offline. Wallpaper content intentionally requires internet and shows a clear network message instead of failing or displaying stale catalog data.</p>
+        </article>
       </div>
     </section>
   </main>
@@ -162,14 +236,15 @@
   <div id="previewModal" class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="previewTitle" hidden>
     <div class="preview-backdrop" data-close-preview></div>
     <div class="preview-shell">
-      <button class="icon-button close-button" data-close-preview aria-label="Close preview">×</button>
       <div class="preview-stage-wrap">
         <canvas id="previewCanvas" class="preview-canvas"></canvas>
         <div class="preview-hud">
           <span class="live-pill"><i></i> LIVE PREVIEW</span>
-          <button id="previewFavoriteBtn" class="icon-button favorite-large" aria-label="Toggle favorite">♡</button>
         </div>
+        <button id="previewFavoriteBtn" class="icon-button favorite-large preview-favorite" aria-label="Toggle favorite">♡</button>
+        <button class="icon-button close-button" data-close-preview aria-label="Close preview">×</button>
       </div>
+
       <div class="preview-info">
         <div>
           <span id="previewCategory" class="eyebrow"></span>
@@ -177,18 +252,17 @@
           <p id="previewDescription" class="muted"></p>
         </div>
         <div class="preview-actions">
-          <button id="saveFrameBtn" class="button button-primary">Save frame</button>
-          <button id="recordBtn" class="button button-secondary">Record live</button>
+          <button id="saveFrameBtn" class="button button-primary">Save photo</button>
+          <button id="recordBtn" class="button button-secondary">Save live clip</button>
           <button id="shareBtn" class="button button-ghost">Share</button>
         </div>
-        <p id="recordHint" class="microcopy">Live recording support varies by browser. A still image is always available.</p>
+        <p id="recordHint" class="microcopy">Saving uses your browser's approved download or share controls. Live recording support varies by browser.</p>
       </div>
     </div>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="./data/wallpapers.js"></script>
   <script src="./assets/js/app.js"></script>
 </body>
 </html>
