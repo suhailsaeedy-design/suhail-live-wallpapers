@@ -25,4 +25,5 @@ jobs:
           git add assets/wallpapers/real/medina-golden-hour.jpeg assets/wallpapers/real/mecca-tawaf-night.jpeg
           git diff --cached --quiet && exit 0
           git commit -m "Add user-approved realistic wallpapers"
+          git pull --rebase origin main
           git push
