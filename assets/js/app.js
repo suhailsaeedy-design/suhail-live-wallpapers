@@ -40,6 +40,8 @@
     downloadSheet: document.getElementById("downloadSheet"),
     downloadLive: document.getElementById("downloadLiveBtn"),
     downloadPhoto: document.getElementById("downloadPhotoBtn"),
+    legacySaveFrame: document.getElementById("saveFrameBtn"),
+    legacyRecord: document.getElementById("recordBtn"),
     share: document.getElementById("shareBtn"),
     toast: document.getElementById("toast"),
     install: document.getElementById("installBtn"),
@@ -773,7 +775,7 @@
   }
 
   function closePreview(updateHash){
-    if(!els.downloadSheet.hidden)closeDownloadSheet();
+    if(els.downloadSheet&&!els.downloadSheet.hidden)closeDownloadSheet();
     if(els.modal.hidden)return;
     els.modal.hidden=true;document.body.style.overflow="";
     if(previewRenderer){previewRenderer.destroy();previewRenderer=null;}
@@ -806,12 +808,13 @@
 
   function openDownloadSheet(){
     if(!selectedWallpaper)return;
+    if(!els.downloadSheet){saveFrame();return;}
     els.downloadSheet.hidden=false;
     document.body.classList.add("download-open");
   }
 
   function closeDownloadSheet(){
-    els.downloadSheet.hidden=true;
+    if(els.downloadSheet)els.downloadSheet.hidden=true;
     document.body.classList.remove("download-open");
   }
 
@@ -841,7 +844,7 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=12",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=13",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
@@ -1047,14 +1050,16 @@
     els.retryNetwork.addEventListener("click",function(){loadWallpapers(true);});
     document.querySelectorAll("[data-close-preview]").forEach(function(el){el.addEventListener("click",function(){closePreview(true);});});
     els.previewFavorite.addEventListener("click",function(){if(selectedWallpaper)toggleFavorite(selectedWallpaper.id);});
-    els.download.addEventListener("click",openDownloadSheet);
-    els.downloadPhoto.addEventListener("click",function(){closeDownloadSheet();saveFrame();});
-    els.downloadLive.addEventListener("click",function(){closeDownloadSheet();recordLive();});
+    if(els.download)els.download.addEventListener("click",openDownloadSheet);
+    if(els.downloadPhoto)els.downloadPhoto.addEventListener("click",function(){closeDownloadSheet();saveFrame();});
+    if(els.downloadLive)els.downloadLive.addEventListener("click",function(){closeDownloadSheet();recordLive();});
+    if(els.legacySaveFrame)els.legacySaveFrame.addEventListener("click",saveFrame);
+    if(els.legacyRecord)els.legacyRecord.addEventListener("click",recordLive);
     document.querySelectorAll("[data-close-download]").forEach(function(el){el.addEventListener("click",closeDownloadSheet);});
-    els.share.addEventListener("click",shareCurrent);
+    if(els.share)els.share.addEventListener("click",shareCurrent);
     document.addEventListener("keydown",function(event){
       if(event.key!=="Escape")return;
-      if(!els.downloadSheet.hidden){closeDownloadSheet();return;}
+      if(els.downloadSheet&&!els.downloadSheet.hidden){closeDownloadSheet();return;}
       if(!els.modal.hidden)closePreview(true);
     });
 
