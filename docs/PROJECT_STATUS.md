@@ -9,8 +9,8 @@ Version 2 feature expansion is implemented and deployed through the main branch.
 - Responsive mobile and desktop interface
 - Sticky desktop header and mobile bottom navigation
 - Dark and Light themes with local preference
-- 40 online wallpaper presets across procedural and realistic-style live scenes
-- Nature, City, Places, Office and Youth scene categories
+- 46 online wallpaper presets; six uploaded photorealistic wallpapers are prioritized at the top of the catalog
+- Photorealistic City, Office, Islamic, Nature and Places wallpapers plus Nature, City, Places, Office and Youth generated scene categories
 - Existing AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury effects
 - Search and category filters while online
 - Local favorite IDs
@@ -24,7 +24,7 @@ Version 2 feature expansion is implemented and deployed through the main branch.
 - Offline app-shell service worker
 - Wallpaper catalog intentionally network-only
 - Automatic connection-state UI and retry behavior
-- Animated creator About page using Suhail Saeedy's portrait
+- Animated creator About page using the approved Suhail Saeedy portrait\n- Direct Open Suhail Labs button in About
 - GitHub Pages deployment workflow
 - Automated syntax / JSON / required-file quality checks
 - Suhail Labs integration notes
@@ -54,7 +54,7 @@ The project uses plain HTML, CSS and JavaScript with no paid runtime service.
 - Wallpaper metadata: `data/wallpapers.json`
 - Rendering and app state: `assets/js/app.js`
 - Visual system: `assets/css/styles.css`
-- Creator image: `assets/images/suhail-saeedy-about.webp`
+- Creator image: `assets/images/suhail-saeedy-about-approved.jpeg`\n- Photorealistic wallpaper files: `assets/wallpapers/real/`
 - Offline policy: `service-worker.js`
 
 ## Rule for future changes
