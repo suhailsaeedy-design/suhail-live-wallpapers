@@ -109,6 +109,16 @@
     this.width = 0;
     this.height = 0;
     this.resizeObserver = null;
+    this.image = null;
+    this.imageReady = false;
+    if (wallpaper.effect === "photo" && wallpaper.asset) {
+      this.image = new Image();
+      this.image.decoding = "async";
+      var self = this;
+      this.image.onload = function(){ self.imageReady = true; self.draw(performance.now()); };
+      this.image.onerror = function(){ self.imageReady = false; };
+      this.image.src = wallpaper.asset;
+    }
     this.init();
   }
 
@@ -195,6 +205,10 @@
   };
 
   CanvasWallpaper.prototype.draw = function (time) {
+    if (this.wallpaper.effect === "photo") {
+      this.drawPhoto(time);
+      return;
+    }
     if (this.wallpaper.effect === "scene") {
       this.drawScene(time);
       return;
@@ -347,6 +361,27 @@
     ctx.restore();
   };
 
+  CanvasWallpaper.prototype.drawPhoto = function(time){
+    var ctx=this.ctx,w=this.width,h=this.height;
+    ctx.fillStyle="#050507";ctx.fillRect(0,0,w,h);
+    if(!this.imageReady||!this.image)return;
+    var img=this.image,iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
+    var cover=Math.max(w/iw,h/ih);
+    var breathe=prefersReducedMotion?0:Math.sin(time*.00022);
+    var scale=cover*(1.035+breathe*.012);
+    var dw=iw*scale,dh=ih*scale;
+    var travelX=Math.max(0,dw-w),travelY=Math.max(0,dh-h);
+    var px=prefersReducedMotion?.5:(.5+.18*Math.sin(time*.00011+this.seed));
+    var py=prefersReducedMotion?.5:(.5+.12*Math.cos(time*.000095+this.seed*.01));
+    var dx=-travelX*px,dy=-travelY*py;
+    ctx.drawImage(img,dx,dy,dw,dh);
+    var shade=ctx.createLinearGradient(0,0,0,h);
+    shade.addColorStop(0,"rgba(0,0,0,.04)");
+    shade.addColorStop(.72,"rgba(0,0,0,.02)");
+    shade.addColorStop(1,"rgba(0,0,0,.18)");
+    ctx.fillStyle=shade;ctx.fillRect(0,0,w,h);
+  };
+
   CanvasWallpaper.prototype.drawScene = function(time){
     var ctx=this.ctx,w=this.width,h=this.height,c=this.wallpaper.colors,scene=this.wallpaper.scene||"mountains",t=time*.0002;
     function sky(top,bottom){var g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,top);g.addColorStop(1,bottom);ctx.fillStyle=g;ctx.fillRect(0,0,w,h);}
@@ -447,7 +482,7 @@
     var visual=document.createElement("div");visual.className="wall-visual";
     var canvas=document.createElement("canvas");canvas.setAttribute("aria-hidden","true");
     var overlay=document.createElement("div");overlay.className="wall-overlay";
-    var live=document.createElement("span");live.className="live-badge";live.textContent="LIVE";
+    var live=document.createElement("span");live.className="live-badge";live.textContent=wallpaper.realistic?"REAL • LIVE":"LIVE";
     var fav=document.createElement("button");fav.className="favorite-btn"+(favorites.has(wallpaper.id)?" is-favorite":"");fav.type="button";fav.textContent=favorites.has(wallpaper.id)?"♥":"♡";fav.setAttribute("aria-label","Toggle favorite");
 
     var meta=document.createElement("div");meta.className="wall-meta";
@@ -537,7 +572,7 @@
     if(!isOnline||!catalogReady){showToast("Connect to the internet to open wallpapers.");return;}
     selectedWallpaper=wallpaper;
     els.previewTitle.textContent=wallpaper.title;
-    els.previewCategory.textContent=wallpaper.category+" • LIVE WALLPAPER";
+    els.previewCategory.textContent=wallpaper.category+(wallpaper.realistic?" • REALISTIC LIVE WALLPAPER":" • LIVE WALLPAPER");
     els.previewDescription.textContent=wallpaper.description;
     updatePreviewFavorite();
     els.modal.hidden=false;document.body.style.overflow="hidden";
@@ -605,11 +640,13 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=4",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=8",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
-      wallpapers=data;catalogReady=true;isOnline=true;
+      wallpapers=data.slice().sort(function(a,b){
+        return Number(!!b.realistic)-Number(!!a.realistic);
+      });catalogReady=true;isOnline=true;
       document.body.classList.remove("is-offline");els.offlineBar.hidden=true;
       var labelEl=els.networkPill.querySelector("span");if(labelEl)labelEl.textContent="Online";
       els.count.textContent=wallpapers.length;
@@ -651,8 +688,21 @@
     return false;
   }
 
-  function saveFrame(){
+  async function saveFrame(){
     if(!selectedWallpaper||!isOnline){showToast("Connect to save a wallpaper.");return;}
+    if(selectedWallpaper.effect==="photo"&&selectedWallpaper.asset){
+      try{
+        var response=await fetch(selectedWallpaper.asset,{cache:"no-store"});
+        if(!response.ok)throw new Error("HTTP "+response.status);
+        var blob=await response.blob();
+        var ext=(blob.type&&blob.type.indexOf("png")!==-1)?".png":".jpeg";
+        var name="suhail-"+selectedWallpaper.id+ext;
+        var shared=await shareFileIfPossible(blob,name,blob.type||"image/jpeg",selectedWallpaper.title);
+        if(shared)showToast("Use the share sheet to save the wallpaper to Photos / Gallery.");
+        else{downloadBlob(blob,name);showToast("Original realistic wallpaper saved.");}
+      }catch(error){showToast("Could not save this wallpaper. Check your connection.");}
+      return;
+    }
     var canvas=buildExportCanvas();if(!canvas)return;
     canvas.toBlob(async function(blob){
       if(!blob){showToast("Could not create the image.");return;}
