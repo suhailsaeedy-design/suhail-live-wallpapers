@@ -1,5 +1,65 @@
 [
   {
+    "id": "real-neon-city-rooftop",
+    "title": "Neon City Rooftop",
+    "category": "City",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/neon-city-rooftop.jpeg",
+    "description": "Photorealistic rainy neon rooftop overlooking a modern city at night.",
+    "featured": true
+  },
+  {
+    "id": "real-sunset-city-office",
+    "title": "Sunset City Office",
+    "category": "Office",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/sunset-city-office.jpeg",
+    "description": "Photorealistic modern office with a warm sunset skyline through floor-to-ceiling windows.",
+    "featured": true
+  },
+  {
+    "id": "real-medina-golden-hour",
+    "title": "Medina Golden Hour",
+    "category": "Islamic",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/medina-golden-hour.jpeg",
+    "description": "Photorealistic golden-hour view inspired by Al-Masjid an-Nabawi in Medina.",
+    "featured": true
+  },
+  {
+    "id": "real-mecca-tawaf-night",
+    "title": "Mecca Tawaf Night",
+    "category": "Islamic",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/mecca-tawaf-night.jpeg",
+    "description": "Photorealistic night view of the Kaaba with worshippers performing tawaf.",
+    "featured": true
+  },
+  {
+    "id": "real-coastal-highway-sunset",
+    "title": "Coastal Highway Sunset",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/coastal-highway-sunset.jpeg",
+    "description": "Photorealistic coastal highway curving above the ocean during a vivid sunset.",
+    "featured": true
+  },
+  {
+    "id": "real-golden-desert-highway",
+    "title": "Golden Desert Highway",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real/golden-desert-highway.jpeg",
+    "description": "Photorealistic long highway through mountain desert scenery under a golden sunset.",
+    "featured": true
+  },
+  {
     "id": "crimson-grin",
     "title": "Crimson Grin",
     "category": "Dark",
