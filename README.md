@@ -6,7 +6,7 @@ It is designed to work without Apple Developer, Google Play Developer, a paid AP
 
 ## Features
 
-- 20 original procedural animated wallpaper presets
+- 22 original procedural animated wallpaper presets
 - AMOLED, abstract, nature, space, cyber, fire, minimal, calm and other categories
 - Responsive mobile + desktop UI
 - Live canvas previews
