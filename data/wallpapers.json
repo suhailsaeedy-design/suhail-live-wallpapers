@@ -60,6 +60,156 @@
     "featured": true
   },
   {
+    "id": "meteor-blue",
+    "title": "Meteor Blue",
+    "category": "Space",
+    "effect": "comets",
+    "colors": [
+      "#020610",
+      "#4aa8ff",
+      "#b7e6ff"
+    ],
+    "description": "Fast blue-white comets sweep across a deep-space field with layered glowing trails.",
+    "featured": true
+  },
+  {
+    "id": "crimson-comets",
+    "title": "Crimson Comets",
+    "category": "AMOLED",
+    "effect": "comets",
+    "colors": [
+      "#020103",
+      "#ff234f",
+      "#ff8a3d"
+    ],
+    "description": "Crimson meteor streaks cut through a near-black AMOLED sky."
+  },
+  {
+    "id": "emerald-fireflies",
+    "title": "Emerald Fireflies",
+    "category": "Nature",
+    "effect": "fireflies",
+    "colors": [
+      "#02100a",
+      "#7dff91",
+      "#18c99a"
+    ],
+    "description": "Soft green fireflies drift and pulse through a dark forest-inspired atmosphere.",
+    "featured": true
+  },
+  {
+    "id": "golden-fireflies",
+    "title": "Golden Fireflies",
+    "category": "Calm",
+    "effect": "fireflies",
+    "colors": [
+      "#100904",
+      "#ffd66f",
+      "#ff9b38"
+    ],
+    "description": "Warm golden lights float slowly in a peaceful night ambience."
+  },
+  {
+    "id": "liquid-aurora",
+    "title": "Liquid Aurora",
+    "category": "Abstract",
+    "effect": "liquid",
+    "colors": [
+      "#050816",
+      "#28f0d0",
+      "#745cff"
+    ],
+    "description": "Fluid aurora light blooms move through layered cyan and violet energy.",
+    "featured": true
+  },
+  {
+    "id": "liquid-chrome",
+    "title": "Liquid Chrome",
+    "category": "Luxury",
+    "effect": "liquid",
+    "colors": [
+      "#050608",
+      "#d7e3ee",
+      "#7c91ff"
+    ],
+    "description": "Cool metallic light pools drift like polished liquid chrome."
+  },
+  {
+    "id": "neon-echo-rings",
+    "title": "Neon Echo Rings",
+    "category": "Cyber",
+    "effect": "rings",
+    "colors": [
+      "#02030a",
+      "#00f0ff",
+      "#8a5cff"
+    ],
+    "description": "Concentric neon rings expand and rotate with a futuristic pulse.",
+    "featured": true
+  },
+  {
+    "id": "ocean-echo",
+    "title": "Ocean Echo",
+    "category": "Calm",
+    "effect": "rings",
+    "colors": [
+      "#02111a",
+      "#51d8ff",
+      "#2b72ff"
+    ],
+    "description": "Blue elliptical wave rings ripple slowly through a deep-ocean glow."
+  },
+  {
+    "id": "arctic-snowfall",
+    "title": "Arctic Snowfall",
+    "category": "Nature",
+    "effect": "snow",
+    "colors": [
+      "#06111c",
+      "#dff6ff",
+      "#7cb7ff"
+    ],
+    "description": "Layered snow falls gently through a cold arctic night.",
+    "featured": true
+  },
+  {
+    "id": "midnight-snow",
+    "title": "Midnight Snow",
+    "category": "Minimal",
+    "effect": "snow",
+    "colors": [
+      "#03050a",
+      "#ffffff",
+      "#9da8c5"
+    ],
+    "description": "Minimal white snow drifts over a clean midnight background."
+  },
+  {
+    "id": "laser-horizon",
+    "title": "Laser Horizon",
+    "category": "Cyber",
+    "effect": "lasers",
+    "colors": [
+      "#02020a",
+      "#18f7ff",
+      "#ff3bd4"
+    ],
+    "description": "Moving laser beams sweep from a glowing digital horizon.",
+    "featured": true
+  },
+  {
+    "id": "violet-laser-grid",
+    "title": "Violet Laser Grid",
+    "category": "AMOLED",
+    "effect": "lasers",
+    "colors": [
+      "#020104",
+      "#a84dff",
+      "#ff2ca8"
+    ],
+    "description": "Violet and magenta laser lines scan across a true-dark futuristic field."
+  },
+  {
     "id": "crimson-grin",
     "title": "Crimson Grin",
     "category": "Dark",
