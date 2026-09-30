@@ -1,5 +1,65 @@
 [
   {
+    "id": "real-aurora-snowy-cabin",
+    "title": "Aurora Snowy Cabin",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/aurora-snowy-cabin.png",
+    "description": "Photorealistic aurora over a snowy alpine cabin, frozen lake and mountain reflections.",
+    "featured": true
+  },
+  {
+    "id": "real-tropical-lagoon-sunrise",
+    "title": "Tropical Lagoon Sunrise",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/tropical-lagoon-sunrise.png",
+    "description": "Photorealistic tropical island lagoon with turquoise water, palms and a golden sunrise.",
+    "featured": true
+  },
+  {
+    "id": "real-lavender-golden-hour",
+    "title": "Lavender Golden Hour",
+    "category": "Nature",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/lavender-golden-hour.png",
+    "description": "Photorealistic lavender fields stretching toward mountains beneath a warm golden-hour sky.",
+    "featured": true
+  },
+  {
+    "id": "real-skyline-reading-lounge",
+    "title": "Skyline Reading Lounge",
+    "category": "Office",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/skyline-reading-lounge.png",
+    "description": "Photorealistic luxury reading lounge with warm interior light and a panoramic evening skyline.",
+    "featured": true
+  },
+  {
+    "id": "real-grand-canyon-golden-river",
+    "title": "Grand Canyon Golden River",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/grand-canyon-golden-river.png",
+    "description": "Photorealistic canyon landscape with a winding river illuminated by a dramatic sunset.",
+    "featured": true
+  },
+  {
+    "id": "real-sakura-koi-garden",
+    "title": "Sakura Koi Garden",
+    "category": "Places",
+    "effect": "photo",
+    "realistic": true,
+    "asset": "./assets/wallpapers/real-v2/sakura-koi-garden.png",
+    "description": "Photorealistic Japanese garden with cherry blossoms, koi pond, bridge and morning light.",
+    "featured": true
+  },
+  {
     "id": "real-neon-city-rooftop",
     "title": "Neon City Rooftop",
     "category": "City",
