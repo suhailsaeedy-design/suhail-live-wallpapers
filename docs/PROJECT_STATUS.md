@@ -9,7 +9,7 @@ Version 2 feature expansion is implemented and deployed through the main branch.
 - Responsive mobile and desktop interface
 - Sticky desktop header and mobile bottom navigation
 - Dark and Light themes with local preference
-- 58 online wallpaper presets; six uploaded photorealistic wallpapers are prioritized at the top of the catalog
+- 64 online wallpaper presets; six uploaded photorealistic wallpapers are prioritized at the top of the catalog
 - Photorealistic City, Office, Islamic, Nature and Places wallpapers plus Nature, City, Places, Office and Youth generated scene categories
 - Added live effects for comets, fireflies, liquid light, animated rings, snowfall and laser horizons
 - Existing AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury effects
@@ -65,3 +65,5 @@ Keep wallpaper data separate from UI/rendering logic. Maintain the online-only c
 ## Deployment
 
 GitHub Pages source uses GitHub Actions.
+
+- Six additional photorealistic wallpapers are placed at the very top of the catalog: Aurora Snowy Cabin, Tropical Lagoon Sunrise, Lavender Golden Hour, Skyline Reading Lounge, Grand Canyon Golden River and Sakura Koi Garden.
