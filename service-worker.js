@@ -1,4 +1,4 @@
-const CACHE_NAME = "suhail-live-wallpapers-v5";
+const CACHE_NAME = "suhail-live-wallpapers-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,7 +6,7 @@ const APP_SHELL = [
   "./assets/css/styles.css",
   "./assets/js/app.js",
   "./assets/icons/icon.svg",
-  "./assets/images/suhail-saeedy-about.webp"
+  "./assets/images/suhail-saeedy-about-v2.webp"
 ];
 
 self.addEventListener("install", event => {
