@@ -11,7 +11,7 @@
   <title>Suhail Live Wallpapers — Suhail Labs</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./assets/icons/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/css/styles.css">
+  <link rel="stylesheet" href="./assets/css/styles.css?v=13">
 </head>
 <body>
   <noscript><div class="noscript">JavaScript is required for live wallpaper previews.</div></noscript>
@@ -257,6 +257,8 @@
         <div class="preview-actions">
           <button id="downloadBtn" class="button button-primary">Download</button>
           <button id="shareBtn" class="button button-ghost">Share</button>
+          <button id="saveFrameBtn" type="button" hidden aria-hidden="true" tabindex="-1">Save photo</button>
+          <button id="recordBtn" type="button" hidden aria-hidden="true" tabindex="-1">Save live clip</button>
         </div>
         <p id="recordHint" class="microcopy">Download lets you choose a live video clip or the original still image.</p>
       </div>
@@ -286,6 +288,6 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="./assets/js/app.js"></script>
+  <script src="./assets/js/app.js?v=13"></script>
 </body>
 </html>
