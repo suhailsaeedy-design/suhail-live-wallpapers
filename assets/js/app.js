@@ -489,32 +489,37 @@
     var preset=this.wallpaper.livePreset||"cinematic";
     var self=this;
 
-    function rippleRegion(startRatio,endRatio,amplitude,speed,frequency,opacity){
-      var y0=Math.max(0,Math.floor(h*startRatio)),y1=Math.min(h,Math.ceil(h*endRatio));
-      var strip=self.options.preview?3:5;
-      ctx.save();ctx.globalAlpha=opacity;
-      for(var yy=y0;yy<y1;yy+=strip){
-        var sy=(yy-dy)/scale;
-        if(sy<0||sy>=ih)continue;
-        var sh=Math.min((strip+1)/scale,ih-sy);
-        var shift=Math.sin(yy*frequency+time*speed+self.seed*.001)*amplitude;
-        ctx.drawImage(img,0,sy,iw,sh,dx+shift,yy,dw,strip+1);
-      }
-      ctx.restore();
+    function waterShimmer(startRatio,endRatio,warm){
+      var y0=h*startRatio,y1=h*endRatio;
+      ctx.save();
+      ctx.beginPath();ctx.rect(0,y0,w,y1-y0);ctx.clip();
+      ctx.globalCompositeOperation="screen";
 
-      ctx.save();ctx.globalCompositeOperation="screen";
-      for(var i=0;i<7;i+=1){
-        var waveY=y0+(y1-y0)*(.08+i*.13)+Math.sin(time*.0012+i)*3;
+      var lineColor=warm?"255,205,132":"188,232,255";
+      for(var i=0;i<9;i+=1){
+        var base=y0+(y1-y0)*(.08+i*.105);
         ctx.beginPath();
-        for(var x=-20;x<=w+20;x+=14){
-          var wy=waveY+Math.sin(x*.033+time*.0018+i*.8)*2.2;
-          if(x===-20)ctx.moveTo(x,wy);else ctx.lineTo(x,wy);
+        for(var x=-20;x<=w+20;x+=12){
+          var y=base+Math.sin(x*.038+time*.0015+i*.75)*1.25+Math.sin(x*.011-time*.0008+i)*.75;
+          if(x===-20)ctx.moveTo(x,y);else ctx.lineTo(x,y);
         }
-        ctx.strokeStyle="rgba(255,226,170,"+(.025+i*.005)+")";
-        ctx.lineWidth=.7;ctx.stroke();
+        ctx.strokeStyle="rgba("+lineColor+","+(.018+i*.0025)+")";
+        ctx.lineWidth=.55+(i%3)*.12;
+        ctx.stroke();
+      }
+
+      for(var s=0;s<Math.min(24,self.items.length);s+=1){
+        var p=self.items[s];
+        var x=(p.x+Math.sin(time*.0009+p.phase)*5+w)%w;
+        var y=y0+(p.y%(Math.max(1,y1-y0)));
+        var pulse=.5+.5*Math.sin(time*.0022+p.phase);
+        var a=.018+p.z*.035+pulse*.012;
+        ctx.fillStyle=warm?"rgba(255,214,148,"+a+")":"rgba(205,239,255,"+a+")";
+        ctx.fillRect(x,y,1.2+p.z*2.6,.5+p.z*.7);
       }
       ctx.restore();
     }
+
 
     function fallingPetals(startRatio,endRatio,count,colorA,colorB){
       ctx.save();
@@ -522,7 +527,7 @@
         var p=self.items[i],span=h*(endRatio-startRatio)+40;
         var y=h*startRatio+((p.y+time*.020*(.35+p.speed))%span)-20;
         var x=(p.x+Math.sin(time*.0008+p.phase)*24+w)%w;
-        var a=.12+p.z*.30;
+        var a=.07+p.z*.16;
         ctx.fillStyle=i%3===0?colorA:colorB;
         ctx.globalAlpha=a;
         ctx.beginPath();
@@ -537,7 +542,7 @@
       for(var i=0;i<Math.min(count,self.items.length);i+=1){
         var p=self.items[i],y=(p.y+time*.016*(.5+p.speed))%(h+24)-12;
         var x=(p.x+Math.sin(time*.00065+p.phase)*10+w)%w;
-        ctx.fillStyle="rgba(255,255,255,"+(.10+p.z*.34)+")";
+        ctx.fillStyle="rgba(255,255,255,"+(.07+p.z*.22)+")";
         ctx.beginPath();ctx.arc(x,y,.6+p.z*1.6,0,Math.PI*2);ctx.fill();
       }
       ctx.restore();
@@ -548,7 +553,7 @@
       for(var i=0;i<Math.min(count,self.items.length);i+=1){
         var p=self.items[i],y=(p.y+time*.052*p.speed)%(h+48)-20;
         ctx.beginPath();ctx.moveTo(p.x,y);ctx.lineTo(p.x-3,y+13+p.z*18);
-        ctx.strokeStyle="rgba(205,225,255,"+(.07+p.z*.21)+")";
+        ctx.strokeStyle="rgba(205,225,255,"+(.045+p.z*.13)+")";
         ctx.lineWidth=.5+p.z;ctx.stroke();
       }
       ctx.restore();
@@ -562,7 +567,7 @@
           var y=h*(.10+i*.07)+Math.sin(x*.018+time*.0010+i*1.35)*17+Math.sin(x*.006-time*.00055+i)*7;
           if(x===-30)ctx.moveTo(x,y);else ctx.lineTo(x,y);
         }
-        ctx.strokeStyle="rgba(70,255,182,"+(.045+i*.016)+")";
+        ctx.strokeStyle="rgba(70,255,182,"+(.028+i*.010)+")";
         ctx.lineWidth=7+i*4;ctx.shadowBlur=16;ctx.shadowColor="#42ffc2";ctx.stroke();
       }
       ctx.restore();
@@ -575,7 +580,7 @@
         var y=h*(startRatio+(endRatio-startRatio)*((i%5)/5))+Math.sin(time*.0003+p.phase)*7;
         var r=35+p.z*55;
         var g=ctx.createRadialGradient(x,y,0,x,y,r);
-        g.addColorStop(0,"rgba(255,255,255,"+(.018+p.z*.018)+")");
+        g.addColorStop(0,"rgba(255,255,255,"+(.010+p.z*.010)+")");
         g.addColorStop(1,"rgba(255,255,255,0)");
         ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
       }
@@ -585,7 +590,7 @@
     function warmFlicker(cx,cy,radius){
       var flicker=.5+.5*Math.sin(time*.0042+self.seed);
       var g=ctx.createRadialGradient(w*cx,h*cy,0,w*cx,h*cy,Math.max(w,h)*radius);
-      g.addColorStop(0,"rgba(255,174,78,"+(.022+flicker*.028)+")");
+      g.addColorStop(0,"rgba(255,174,78,"+(.012+flicker*.014)+")");
       g.addColorStop(1,"rgba(255,174,78,0)");
       ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
     }
@@ -653,19 +658,16 @@
 
     switch(preset){
       case "venice":
-        rippleRegion(.48,1,3.4,.0032,.037,.88);
-        twinkleLights(26,.18,.64);
+        waterShimmer(.52,1,true);
         break;
       case "lagoon":
-        rippleRegion(.43,1,3.1,.0030,.034,.86);
-        cloudMist(.05,.26);
+        waterShimmer(.46,1,false);
         break;
       case "coast":
-        rippleRegion(.43,1,3.7,.0034,.036,.86);
-        cloudMist(.05,.25);
+        waterShimmer(.46,1,false);
         break;
       case "iceland":
-        rippleRegion(.58,1,3.0,.0032,.039,.80);
+        waterShimmer(.62,1,false);
         aurora();
         break;
       case "aurora":
@@ -673,7 +675,7 @@
         snow(34);
         break;
       case "garden":
-        rippleRegion(.63,1,2.5,.0030,.038,.78);
+        waterShimmer(.66,1,false);
         fallingPetals(.02,1,42,"rgba(255,182,215,.48)","rgba(255,231,239,.34)");
         break;
       case "lavender":
@@ -682,16 +684,16 @@
         break;
       case "santorini":
         fallingPetals(.02,1,24,"rgba(255,96,123,.34)","rgba(255,190,205,.24)");
-        rippleRegion(.44,.72,2.0,.0026,.041,.55);
+        waterShimmer(.47,.72,false);
         break;
       case "alpine":
-        rippleRegion(.56,1,2.8,.0028,.038,.82);
+        waterShimmer(.58,1,false);
         cloudMist(.16,.38);
         snow(18);
         break;
       case "raincity":
         rain(72);
-        rippleRegion(.72,1,2.4,.0035,.045,.54);
+        waterShimmer(.74,1,true);
         twinkleLights(24,.20,.70);
         break;
       case "camp":
@@ -699,8 +701,7 @@
         embers(30);
         break;
       case "office":
-        twinkleLights(32,.08,.66);
-        warmFlicker(.42,.58,.32);
+        warmFlicker(.42,.58,.24);
         break;
       case "mosque":
         warmFlicker(.55,.70,.38);
@@ -719,8 +720,7 @@
         warmFlicker(.54,.46,.36);
         break;
       case "road":
-        cloudMist(.02,.24);
-        twinkleLights(10,.54,.80);
+        cloudMist(.03,.18);
         break;
       default:
         twinkleLights(16,.10,.72);
@@ -1004,7 +1004,7 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=14",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=15",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
