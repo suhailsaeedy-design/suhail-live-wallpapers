@@ -36,8 +36,10 @@
     previewCategory: document.getElementById("previewCategory"),
     previewDescription: document.getElementById("previewDescription"),
     previewFavorite: document.getElementById("previewFavoriteBtn"),
-    saveFrame: document.getElementById("saveFrameBtn"),
-    record: document.getElementById("recordBtn"),
+    download: document.getElementById("downloadBtn"),
+    downloadSheet: document.getElementById("downloadSheet"),
+    downloadLive: document.getElementById("downloadLiveBtn"),
+    downloadPhoto: document.getElementById("downloadPhotoBtn"),
     share: document.getElementById("shareBtn"),
     toast: document.getElementById("toast"),
     install: document.getElementById("installBtn"),
@@ -472,20 +474,100 @@
     var ctx=this.ctx,w=this.width,h=this.height;
     ctx.fillStyle="#050507";ctx.fillRect(0,0,w,h);
     if(!this.imageReady||!this.image)return;
+
     var img=this.image,iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
     var cover=Math.max(w/iw,h/ih);
-    var breathe=prefersReducedMotion?0:Math.sin(time*.00022);
-    var scale=cover*(1.035+breathe*.012);
+    var motionScale=this.options.preview?1:0.62;
+    var breathe=prefersReducedMotion?0:Math.sin(time*.00018);
+    var scale=cover*(1.045+breathe*.006);
     var dw=iw*scale,dh=ih*scale;
     var travelX=Math.max(0,dw-w),travelY=Math.max(0,dh-h);
-    var px=prefersReducedMotion?.5:(.5+.18*Math.sin(time*.00011+this.seed));
-    var py=prefersReducedMotion?.5:(.5+.12*Math.cos(time*.000095+this.seed*.01));
+    var px=prefersReducedMotion?.5:(.5+.07*Math.sin(time*.00008+this.seed));
+    var py=prefersReducedMotion?.5:(.5+.05*Math.cos(time*.00007+this.seed*.01));
     var dx=-travelX*px,dy=-travelY*py;
     ctx.drawImage(img,dx,dy,dw,dh);
+
+    if(!prefersReducedMotion){
+      var sx0=Math.max(0,-dx/scale),visibleW=Math.min(iw-sx0,w/scale);
+      var self=this;
+      function warpBand(startRatio,endRatio,amp,speed,frequency,phase,alpha){
+        var y0=Math.max(0,Math.floor(h*startRatio)),y1=Math.min(h,Math.ceil(h*endRatio));
+        var strip=self.options.preview?3:5;
+        ctx.save();ctx.globalAlpha=alpha;
+        for(var yy=y0;yy<y1;yy+=strip){
+          var sy=(yy-dy)/scale;
+          if(sy<0||sy>=ih)continue;
+          var sh=Math.min(strip/scale,ih-sy);
+          var shift=Math.sin(yy*frequency+time*speed+phase)*amp*motionScale;
+          var margin=Math.abs(amp*motionScale)+2;
+          ctx.drawImage(img,sx0,sy,visibleW,sh,-margin+shift,yy,w+margin*2,strip+1);
+        }
+        ctx.restore();
+      }
+
+      var preset=this.wallpaper.livePreset||"cinematic";
+      if(["lagoon","coast","venice","iceland","lake","tawaf"].indexOf(preset)>=0) warpBand(.52,1,4.6,.0042,.035,this.seed*.01,.72);
+      if(["lavender","garden","wind","santorini","alpine"].indexOf(preset)>=0) warpBand(.48,1,2.8,.0032,.027,this.seed*.02,.46);
+      if(["aurora","sky","canyon","road","city","office","desert","balloons","mosque"].indexOf(preset)>=0) warpBand(0,.46,2.2,.0022,.022,this.seed*.015,.34);
+
+      if(preset==="aurora"||preset==="iceland"){
+        ctx.save();ctx.globalCompositeOperation="screen";
+        for(var a=0;a<4;a+=1){
+          ctx.beginPath();
+          for(var ax=-30;ax<=w+30;ax+=12){
+            var ay=h*(.12+a*.075)+Math.sin(ax*.018+time*.0012+a*1.4)*18;
+            if(ax===-30)ctx.moveTo(ax,ay);else ctx.lineTo(ax,ay);
+          }
+          ctx.strokeStyle="rgba(74,255,183,"+(.055+a*.018)+")";
+          ctx.lineWidth=8+a*4;ctx.shadowBlur=18;ctx.shadowColor="#42ffc2";ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      if(preset==="raincity"){
+        ctx.save();ctx.lineCap="round";
+        for(var r=0;r<Math.min(72,this.items.length);r+=1){
+          var rp=this.items[r],ry=(rp.y+time*.055*rp.speed)%(h+45)-20;
+          ctx.beginPath();ctx.moveTo(rp.x,ry);ctx.lineTo(rp.x-3,ry+13+rp.z*18);
+          ctx.strokeStyle="rgba(205,225,255,"+(.08+rp.z*.22)+")";ctx.lineWidth=.5+rp.z;ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      if(preset==="snow"||preset==="alpine"){
+        ctx.save();
+        for(var s=0;s<Math.min(70,this.items.length);s+=1){
+          var sp=this.items[s],sy2=(sp.y+time*.018*sp.speed)%(h+20)-10;
+          var sx2=(sp.x+Math.sin(time*.0007+sp.phase)*12+w)%w;
+          ctx.fillStyle="rgba(255,255,255,"+(.10+sp.z*.34)+")";
+          ctx.beginPath();ctx.arc(sx2,sy2,.6+sp.z*1.7,0,Math.PI*2);ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      if(preset==="garden"){
+        ctx.save();
+        for(var p=0;p<Math.min(34,this.items.length);p+=1){
+          var pp=this.items[p],py2=(pp.y+time*.012*(.4+pp.speed))%(h+30)-15;
+          var px2=(pp.x+Math.sin(time*.0008+pp.phase)*28+w)%w;
+          ctx.fillStyle=p%3===0?"rgba(255,190,221,.42)":"rgba(255,226,238,.28)";
+          ctx.beginPath();ctx.ellipse(px2,py2,1.2+pp.z*1.8,.7+pp.z,pp.phase+time*.0005,0,Math.PI*2);ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      if(preset==="camp"||preset==="office"||preset==="city"||preset==="mosque"){
+        var flicker=.5+.5*Math.sin(time*.0043+this.seed);
+        var glow=ctx.createRadialGradient(w*.55,h*.62,0,w*.55,h*.62,Math.max(w,h)*.58);
+        glow.addColorStop(0,"rgba(255,174,78,"+(.018+flicker*.018)+")");glow.addColorStop(1,"rgba(255,174,78,0)");
+        ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+      }
+    }
+
     var shade=ctx.createLinearGradient(0,0,0,h);
-    shade.addColorStop(0,"rgba(0,0,0,.04)");
-    shade.addColorStop(.72,"rgba(0,0,0,.02)");
-    shade.addColorStop(1,"rgba(0,0,0,.18)");
+    shade.addColorStop(0,"rgba(0,0,0,.025)");
+    shade.addColorStop(.72,"rgba(0,0,0,.015)");
+    shade.addColorStop(1,"rgba(0,0,0,.16)");
     ctx.fillStyle=shade;ctx.fillRect(0,0,w,h);
   };
 
@@ -721,6 +803,17 @@
     window.scrollTo({top:0,behavior:prefersReducedMotion?"auto":"smooth"});
   }
 
+  function openDownloadSheet(){
+    if(!selectedWallpaper)return;
+    els.downloadSheet.hidden=false;
+    document.body.classList.add("download-open");
+  }
+
+  function closeDownloadSheet(){
+    els.downloadSheet.hidden=true;
+    document.body.classList.remove("download-open");
+  }
+
   function showToast(message){
     clearTimeout(toastTimer);els.toast.textContent=message;els.toast.classList.add("is-visible");
     toastTimer=setTimeout(function(){els.toast.classList.remove("is-visible");},2600);
@@ -747,7 +840,7 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=8",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=12",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
@@ -834,8 +927,8 @@
     try{
       var stream=els.previewCanvas.captureStream(30);
       var recorder=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
-      var chunks=[],original=els.record.textContent;
-      els.record.disabled=true;var seconds=6;els.record.textContent="Recording "+seconds+"s";
+      var chunks=[],button=els.downloadLive,original=button.textContent;
+      button.disabled=true;var seconds=8;button.textContent="Recording "+seconds+"s";
       recorder.ondataavailable=function(event){if(event.data&&event.data.size)chunks.push(event.data);};
       recorder.onstop=async function(){
         var type=recorder.mimeType||mime||"video/webm",ext=type.indexOf("mp4")!==-1?".mp4":".webm";
@@ -843,13 +936,13 @@
         var shared=await shareFileIfPossible(blob,name,type,selectedWallpaper.title+" live wallpaper");
         if(shared)showToast("Use the share sheet to save the live clip.");
         else{downloadBlob(blob,name);showToast("Live clip saved.");}
-        els.record.disabled=false;els.record.textContent=original;
+        button.disabled=false;button.textContent=original;
       };
       recorder.start(250);
-      var timer=setInterval(function(){seconds-=1;if(seconds>0)els.record.textContent="Recording "+seconds+"s";},1000);
-      setTimeout(function(){clearInterval(timer);if(recorder.state!=="inactive")recorder.stop();stream.getTracks().forEach(function(track){track.stop();});},6000);
+      var timer=setInterval(function(){seconds-=1;if(seconds>0)button.textContent="Recording "+seconds+"s";},1000);
+      setTimeout(function(){clearInterval(timer);if(recorder.state!=="inactive")recorder.stop();stream.getTracks().forEach(function(track){track.stop();});},8000);
     }catch(error){
-      els.record.disabled=false;els.record.textContent="Save live clip";showToast("Use your phone screen recorder for this browser.");
+      if(els.downloadLive){els.downloadLive.disabled=false;els.downloadLive.textContent="Live wallpaper";}showToast("Use your phone screen recorder for this browser.");
     }
   }
 
@@ -903,9 +996,26 @@
   }
 
   function setupServiceWorker(){
-    if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")){
-      window.addEventListener("load",function(){navigator.serviceWorker.register("./service-worker.js").catch(function(){});});
-    }
+    if(!("serviceWorker" in navigator)||!(location.protocol==="https:"||location.hostname==="localhost"))return;
+    var reloaded=false;
+    navigator.serviceWorker.addEventListener("controllerchange",function(){
+      if(reloaded)return;
+      reloaded=true;
+      location.reload();
+    });
+    window.addEventListener("load",async function(){
+      try{
+        var registration=await navigator.serviceWorker.register("./service-worker.js",{updateViaCache:"none"});
+        await registration.update();
+        setInterval(function(){registration.update().catch(function(){});},15*60*1000);
+        document.addEventListener("visibilitychange",function(){
+          if(document.visibilityState==="visible"){
+            registration.update().catch(function(){});
+            if(navigator.onLine)loadWallpapers(false);
+          }
+        });
+      }catch(error){}
+    });
   }
 
   function handleInitialHash(){
@@ -934,12 +1044,19 @@
     els.retryNetwork.addEventListener("click",function(){loadWallpapers(true);});
     document.querySelectorAll("[data-close-preview]").forEach(function(el){el.addEventListener("click",function(){closePreview(true);});});
     els.previewFavorite.addEventListener("click",function(){if(selectedWallpaper)toggleFavorite(selectedWallpaper.id);});
-    els.saveFrame.addEventListener("click",saveFrame);
-    els.record.addEventListener("click",recordLive);
+    els.download.addEventListener("click",openDownloadSheet);
+    els.downloadPhoto.addEventListener("click",function(){closeDownloadSheet();saveFrame();});
+    els.downloadLive.addEventListener("click",function(){closeDownloadSheet();recordLive();});
+    document.querySelectorAll("[data-close-download]").forEach(function(el){el.addEventListener("click",closeDownloadSheet);});
     els.share.addEventListener("click",shareCurrent);
-    document.addEventListener("keydown",function(event){if(event.key==="Escape"&&!els.modal.hidden)closePreview(true);});
+    document.addEventListener("keydown",function(event){
+      if(event.key!=="Escape")return;
+      if(!els.downloadSheet.hidden){closeDownloadSheet();return;}
+      if(!els.modal.hidden)closePreview(true);
+    });
 
     window.addEventListener("online",function(){loadWallpapers(true);});
+    window.addEventListener("focus",function(){if(navigator.onLine)loadWallpapers(false);});
     window.addEventListener("offline",function(){setNetworkState(false,"Offline");showToast("Network lost. Wallpaper browsing is paused.");});
     window.addEventListener("hashchange",function(){
       var raw=location.hash.replace("#","");
