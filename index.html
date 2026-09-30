@@ -255,13 +255,33 @@
           <p id="previewDescription" class="muted"></p>
         </div>
         <div class="preview-actions">
-          <button id="saveFrameBtn" class="button button-primary">Save photo</button>
-          <button id="recordBtn" class="button button-secondary">Save live clip</button>
+          <button id="downloadBtn" class="button button-primary">Download</button>
           <button id="shareBtn" class="button button-ghost">Share</button>
         </div>
-        <p id="recordHint" class="microcopy">Saving uses your browser's approved download or share controls. Live recording support varies by browser.</p>
+        <p id="recordHint" class="microcopy">Download lets you choose a live video clip or the original still image.</p>
       </div>
     </div>
+  </div>
+
+  <div id="downloadSheet" class="download-sheet" hidden>
+    <div class="download-sheet-backdrop" data-close-download></div>
+    <section class="download-sheet-card" role="dialog" aria-modal="true" aria-labelledby="downloadSheetTitle">
+      <div class="download-sheet-handle" aria-hidden="true"></div>
+      <span class="eyebrow">DOWNLOAD WALLPAPER</span>
+      <h2 id="downloadSheetTitle">Choose a format</h2>
+      <p>Save the moving live version or keep the original still wallpaper.</p>
+      <div class="download-choice-grid">
+        <button id="downloadLiveBtn" class="download-choice" type="button">
+          <span class="download-choice-icon">◉</span>
+          <span><strong>Live wallpaper</strong><small>Animated video clip</small></span>
+        </button>
+        <button id="downloadPhotoBtn" class="download-choice" type="button">
+          <span class="download-choice-icon">▣</span>
+          <span><strong>Simple image</strong><small>Original still photo</small></span>
+        </button>
+      </div>
+      <button class="button button-ghost download-cancel" type="button" data-close-download>Cancel</button>
+    </section>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
