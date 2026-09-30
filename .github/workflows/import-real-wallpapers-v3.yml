@@ -1,0 +1,35 @@
+name: Import realistic wallpapers v3
+on:
+  push:
+    paths:
+      - '.github/workflows/import-real-wallpapers-v3.yml'
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download six new realistic wallpapers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/wallpapers/real-v3
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/0bb41138-5140-41c4-a644-ea4b80fa03ea.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiOWQwZWFkYzg4YjY3MDQ0MCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk0MzMwNH0.kfdqWqhRcREl2UR3NZoJTdIfmsd5HEN3EQspBpJqOvQ' -o assets/wallpapers/real-v3/santorini-sunset-pathway.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/ef1f15b5-0851-44a3-bd57-bfc5f7053703.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiOGNlZTBhMTI1MzBkZDU1NCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk3MzU4Nn0.aBZTi5NpRR4pO9WzX5yNk66axDBGJcnZho4N6yf0JoE' -o assets/wallpapers/real-v3/dubai-desert-twilight-camp.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/ab0db3fc-40e0-418e-9758-9e9317d570e0.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZGI3NjQ1MmVjNTc4MzEwYiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDkyNDQ2Mn0.U_FsDDaavjbSj0boggg3ZeZtnA3G8Nl8SBiS846mcA0' -o assets/wallpapers/real-v3/swiss-alpine-village-sunrise.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/8fa59be9-1026-402c-a834-c86fd6061ac0.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiM2U1YTFiMDZmZWQ0NGYxZCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk0Njk1MH0.336bNc4dkOL7Bphm2wXc8IhC_xG6LnwCAwleH8BjUWo' -o assets/wallpapers/real-v3/venice-moonlit-canal.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/4d1c28df-fddd-4bbe-9030-6c0909734c0c.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZjZkOWE5OWJhYzZkNzM5ZiIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDk0Nzg2N30.KQWEw7erfKi9TOFXU8807RocOtYdh2SjZDPJu3y-UVs' -o assets/wallpapers/real-v3/cappadocia-balloon-sunrise.png
+          curl -L --fail --retry 3 'https://d2jqrm6oza8nb6.cloudfront.net/datasets/01ba5b56-f6c1-4802-a98e-493dfcee14d3.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYjk1NTY4N2Y0NzJjYjI5NCIsImJ1Y2tldCI6InJ1bndheS1kYXRhc2V0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDkxODI3MX0.6khqSoOB0pOCUlka26SFjbakJn_lan_G2tG2uv2oW9Y' -o assets/wallpapers/real-v3/iceland-aurora-black-sand.png
+          file assets/wallpapers/real-v3/*.png
+      - name: Commit imported wallpapers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/wallpapers/real-v3
+          git diff --cached --quiet && exit 0
+          git commit -m "Add six new realistic location wallpapers"
+          git pull --rebase origin main
+          git push
