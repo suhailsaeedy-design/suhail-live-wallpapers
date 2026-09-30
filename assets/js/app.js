@@ -619,7 +619,25 @@
 
   function saveFrame() {
     if (!selectedWallpaper) return;
-    els.previewCanvas.toBlob(function (blob) {
+
+    var exportCanvas = document.createElement("canvas");
+    exportCanvas.width = 1290;
+    exportCanvas.height = 2796;
+    var exportRenderer = Object.create(CanvasWallpaper.prototype);
+    exportRenderer.canvas = exportCanvas;
+    exportRenderer.ctx = exportCanvas.getContext("2d", { alpha: false });
+    exportRenderer.wallpaper = selectedWallpaper;
+    exportRenderer.options = { preview: true };
+    exportRenderer.dpr = 1;
+    exportRenderer.seed = hashString(selectedWallpaper.id);
+    exportRenderer.random = seededRandom(exportRenderer.seed);
+    exportRenderer.items = [];
+    exportRenderer.width = exportCanvas.width;
+    exportRenderer.height = exportCanvas.height;
+    exportRenderer.makeItems();
+    exportRenderer.draw(performance.now());
+
+    exportCanvas.toBlob(function (blob) {
       if (!blob) {
         showToast("Could not create the image.");
         return;
@@ -627,12 +645,12 @@
       var url = URL.createObjectURL(blob);
       var a = document.createElement("a");
       a.href = url;
-      a.download = "suhail-" + selectedWallpaper.id + ".png";
+      a.download = "suhail-" + selectedWallpaper.id + "-1290x2796.png";
       document.body.appendChild(a);
       a.click();
       a.remove();
       setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-      showToast("Wallpaper frame saved");
+      showToast("High-resolution wallpaper saved");
     }, "image/png", 1);
   }
 
