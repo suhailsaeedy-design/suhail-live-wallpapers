@@ -1004,7 +1004,7 @@
       return false;
     }
     try{
-      var response=await fetch("./data/wallpapers.json?v=13",{cache:"no-store",headers:{"Accept":"application/json"}});
+      var response=await fetch("./data/wallpapers.json?v=14",{cache:"no-store",headers:{"Accept":"application/json"}});
       if(!response.ok)throw new Error("HTTP "+response.status);
       var data=await response.json();
       if(!Array.isArray(data))throw new Error("Invalid wallpaper catalog");
