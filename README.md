@@ -6,9 +6,10 @@ The project runs on GitHub Pages and does not require Apple Developer, Google Pl
 
 ## Current features
 
-- 46 wallpaper presets, with six approved photorealistic wallpapers shown first
+- 58 wallpaper presets, with six approved photorealistic wallpapers shown first
 - Nature, City, Places, Office, Youth, AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury categories
-- Six uploaded photorealistic wallpapers: neon city rooftop, sunset office, Medina golden hour, Mecca tawaf night, coastal highway sunset and golden desert highway\n- Photorealistic wallpapers receive a subtle live pan/zoom preview and can be saved in their original uploaded image form\n- Additional animated scene presets for mountains, forests, coastlines, roads, rainy cities, offices, studios and youth/street themes
+- Six uploaded photorealistic wallpapers: neon city rooftop, sunset office, Medina golden hour, Mecca tawaf night, coastal highway sunset and golden desert highway\n- Photorealistic wallpapers receive a subtle live pan/zoom preview and can be saved in their original uploaded image form
+- Six new live-effect engines: comets, fireflies, liquid light, expanding rings, snowfall and laser horizon effects\n- Additional animated scene presets for mountains, forests, coastlines, roads, rainy cities, offices, studios and youth/street themes
 - Full-screen live Canvas preview
 - Search and category filters
 - Local favorites
