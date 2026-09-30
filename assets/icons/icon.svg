@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Suhail Live Wallpapers">
+  <defs>
+    <linearGradient id="g" x1="55" y1="44" x2="458" y2="478" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff4059"/>
+      <stop offset=".48" stop-color="#b542d9"/>
+      <stop offset="1" stop-color="#5d4dff"/>
+    </linearGradient>
+    <radialGradient id="r" cx="0" cy="0" r="1" gradientTransform="translate(278 226) rotate(90) scale(220)">
+      <stop stop-color="#ff6f88" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#ff3d59" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="124" fill="#07070b"/>
+  <rect x="19" y="19" width="474" height="474" rx="108" fill="url(#r)" stroke="#fff" stroke-opacity=".08" stroke-width="2"/>
+  <path d="M351 154c-22-27-57-41-98-41-69 0-116 36-116 91 0 50 34 71 98 85 47 10 62 18 62 36 0 20-19 31-49 31-38 0-70-15-96-43l-45 50c33 39 80 58 139 58 74 0 123-37 123-98 0-51-31-76-101-91-42-9-58-16-58-32 0-17 17-27 45-27 31 0 57 12 79 34l17-53Z" fill="url(#g)"/>
+  <circle cx="390" cy="120" r="16" fill="#fff" opacity=".9"/>
+</svg>
