@@ -773,6 +773,7 @@
   }
 
   function closePreview(updateHash){
+    if(!els.downloadSheet.hidden)closeDownloadSheet();
     if(els.modal.hidden)return;
     els.modal.hidden=true;document.body.style.overflow="";
     if(previewRenderer){previewRenderer.destroy();previewRenderer=null;}
@@ -922,7 +923,8 @@
 
   function recordLive(){
     if(!selectedWallpaper||!isOnline){showToast("Connect to save a live clip.");return;}
-    if(!els.previewCanvas.captureStream||!window.MediaRecorder){showToast("This browser cannot record the live canvas. Use your phone screen recorder.");return;}
+    if(!els.previewCanvas.captureStream||!window.MediaRecorder){showToast("This browser cannot export live video. The still-image option is available.");return;}
+    showToast("Recording an 8-second live wallpaper…");
     var mime=bestRecordingMime();
     try{
       var stream=els.previewCanvas.captureStream(30);
@@ -991,6 +993,7 @@
     });
     var isIos=/iphone|ipad|ipod/i.test(navigator.userAgent);
     var standalone=window.matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+    document.documentElement.classList.toggle("is-standalone",!!standalone);
     if(isIos&&!standalone){els.install.hidden=false;els.install.textContent="Add to Home";}
     window.addEventListener("appinstalled",function(){els.install.hidden=true;showToast("Suhail Live Wallpapers installed.");});
   }
