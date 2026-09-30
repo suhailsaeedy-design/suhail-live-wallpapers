@@ -1,10 +1,10 @@
-const CACHE_NAME = "suhail-live-wallpapers-v15";
+const CACHE_NAME = "suhail-live-wallpapers-v16";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./assets/css/styles.css?v=15",
-  "./assets/js/app.js?v=15",
+  "./assets/css/styles.css?v=16",
+  "./assets/js/app.js?v=16",
   "./assets/icons/icon.svg",
   "./assets/images/suhail-saeedy-about-approved.jpeg"
 ];
