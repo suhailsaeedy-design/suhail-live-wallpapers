@@ -1,0 +1,506 @@
+[
+  {
+    "id": "crimson-grin",
+    "title": "Crimson Grin",
+    "category": "Dark",
+    "effect": "mask",
+    "colors": [
+      "#030304",
+      "#ff203f",
+      "#8d001f"
+    ],
+    "description": "An original abstract neon face with a subtle crimson grin.",
+    "featured": true
+  },
+  {
+    "id": "violet-phantom",
+    "title": "Violet Phantom",
+    "category": "Dark",
+    "effect": "mask",
+    "colors": [
+      "#05030b",
+      "#a54cff",
+      "#ff4d92"
+    ],
+    "description": "A mysterious geometric face emerging from violet light."
+  },
+  {
+    "id": "crimson-void",
+    "title": "Crimson Void",
+    "category": "AMOLED",
+    "effect": "orbits",
+    "colors": [
+      "#050307",
+      "#ff2749",
+      "#8a001d"
+    ],
+    "description": "Dark crimson light orbiting through a true-black inspired field.",
+    "featured": true
+  },
+  {
+    "id": "violet-pulse",
+    "title": "Violet Pulse",
+    "category": "Abstract",
+    "effect": "pulse",
+    "colors": [
+      "#080611",
+      "#8f5cff",
+      "#ff4fa3"
+    ],
+    "description": "Soft violet energy rings with a neon pulse.",
+    "featured": true
+  },
+  {
+    "id": "aurora-drift",
+    "title": "Aurora Drift",
+    "category": "Nature",
+    "effect": "waves",
+    "colors": [
+      "#02100f",
+      "#17e3b2",
+      "#6e71ff"
+    ],
+    "description": "Slow flowing aurora ribbons over a deep night sky.",
+    "featured": true
+  },
+  {
+    "id": "cosmic-rain",
+    "title": "Cosmic Rain",
+    "category": "Space",
+    "effect": "rain",
+    "colors": [
+      "#03040b",
+      "#6aa9ff",
+      "#af5cff"
+    ],
+    "description": "Luminous starlight falling through a quiet cosmic field."
+  },
+  {
+    "id": "neon-grid",
+    "title": "Neon Grid",
+    "category": "Cyber",
+    "effect": "grid",
+    "colors": [
+      "#02030a",
+      "#00e7ff",
+      "#744dff"
+    ],
+    "description": "A perspective grid breathing with electric blue light."
+  },
+  {
+    "id": "ember-flow",
+    "title": "Ember Flow",
+    "category": "Fire",
+    "effect": "particles",
+    "colors": [
+      "#090301",
+      "#ff5b22",
+      "#ffca61"
+    ],
+    "description": "Floating embers rise through warm cinematic darkness."
+  },
+  {
+    "id": "deep-ocean",
+    "title": "Deep Ocean",
+    "category": "Nature",
+    "effect": "bubbles",
+    "colors": [
+      "#01101a",
+      "#009ee8",
+      "#2effd1"
+    ],
+    "description": "Cool bubbles drift upward through a deep blue current."
+  },
+  {
+    "id": "rose-ribbons",
+    "title": "Rose Ribbons",
+    "category": "Abstract",
+    "effect": "ribbons",
+    "colors": [
+      "#0d0309",
+      "#ff3d87",
+      "#ff9ac8"
+    ],
+    "description": "Silky rose light trails sweep across a dark canvas."
+  },
+  {
+    "id": "star-trails",
+    "title": "Star Trails",
+    "category": "Space",
+    "effect": "stars",
+    "colors": [
+      "#020208",
+      "#ffffff",
+      "#7f74ff"
+    ],
+    "description": "Slow rotating star trails inspired by long-exposure night skies."
+  },
+  {
+    "id": "electric-storm",
+    "title": "Electric Storm",
+    "category": "Cyber",
+    "effect": "lightning",
+    "colors": [
+      "#02030a",
+      "#9b75ff",
+      "#2fe8ff"
+    ],
+    "description": "Abstract electric flashes illuminate a deep violet atmosphere."
+  },
+  {
+    "id": "mint-orbit",
+    "title": "Mint Orbit",
+    "category": "Minimal",
+    "effect": "orbits",
+    "colors": [
+      "#03100d",
+      "#48ffd0",
+      "#d8fff5"
+    ],
+    "description": "Minimal mint rings moving in calm orbital paths."
+  },
+  {
+    "id": "solar-flare",
+    "title": "Solar Flare",
+    "category": "Space",
+    "effect": "pulse",
+    "colors": [
+      "#100300",
+      "#ff5c20",
+      "#ffd36a"
+    ],
+    "description": "A glowing solar core sends warm energy through the darkness."
+  },
+  {
+    "id": "digital-rain",
+    "title": "Digital Rain",
+    "category": "Cyber",
+    "effect": "rain",
+    "colors": [
+      "#010803",
+      "#41ff7b",
+      "#0a7b35"
+    ],
+    "description": "Abstract green light streams with a futuristic data-rain feel."
+  },
+  {
+    "id": "ice-waves",
+    "title": "Ice Waves",
+    "category": "Minimal",
+    "effect": "waves",
+    "colors": [
+      "#031017",
+      "#9eeeff",
+      "#4377ff"
+    ],
+    "description": "Clean frozen-blue waves glide through a glassy night scene."
+  },
+  {
+    "id": "magenta-dust",
+    "title": "Magenta Dust",
+    "category": "AMOLED",
+    "effect": "particles",
+    "colors": [
+      "#050106",
+      "#ff3cc8",
+      "#7524ff"
+    ],
+    "description": "Bright magenta particles float through a near-black background."
+  },
+  {
+    "id": "golden-night",
+    "title": "Golden Night",
+    "category": "Luxury",
+    "effect": "stars",
+    "colors": [
+      "#090704",
+      "#ffd66e",
+      "#6f4d13"
+    ],
+    "description": "Fine golden points rotate gently across a black field."
+  },
+  {
+    "id": "lava-lines",
+    "title": "Lava Lines",
+    "category": "Fire",
+    "effect": "ribbons",
+    "colors": [
+      "#0d0200",
+      "#ff3b13",
+      "#ff9e2c"
+    ],
+    "description": "Molten light ribbons bend and flow through volcanic darkness."
+  },
+  {
+    "id": "sky-bubbles",
+    "title": "Sky Bubbles",
+    "category": "Calm",
+    "effect": "bubbles",
+    "colors": [
+      "#05111f",
+      "#65b8ff",
+      "#d2edff"
+    ],
+    "description": "Soft glowing bubbles float upward in a calm midnight sky."
+  },
+  {
+    "id": "red-signal",
+    "title": "Red Signal",
+    "category": "AMOLED",
+    "effect": "grid",
+    "colors": [
+      "#050203",
+      "#ff213f",
+      "#71101f"
+    ],
+    "description": "A sharp red perspective field made for dark screens."
+  },
+  {
+    "id": "dream-nebula",
+    "title": "Dream Nebula",
+    "category": "Space",
+    "effect": "nebula",
+    "colors": [
+      "#070415",
+      "#a159ff",
+      "#ff5fa2"
+    ],
+    "description": "Layered violet and pink clouds drift like a distant nebula."
+  },
+  {
+    "id": "alpine-sunrise",
+    "title": "Alpine Sunrise",
+    "category": "Nature",
+    "effect": "scene",
+    "scene": "mountains",
+    "colors": [
+      "#10192b",
+      "#ffba72",
+      "#6ea4d8"
+    ],
+    "description": "Layered mountain peaks wake beneath a slow moving sunrise haze.",
+    "featured": true
+  },
+  {
+    "id": "emerald-forest",
+    "title": "Emerald Forest",
+    "category": "Nature",
+    "effect": "scene",
+    "scene": "forest",
+    "colors": [
+      "#07140f",
+      "#4fcf8b",
+      "#bde8cf"
+    ],
+    "description": "A deep green forest with drifting mist, moving light and gentle fireflies."
+  },
+  {
+    "id": "ocean-cliffs",
+    "title": "Ocean Cliffs",
+    "category": "Nature",
+    "effect": "scene",
+    "scene": "coast",
+    "colors": [
+      "#062235",
+      "#44bce8",
+      "#efc27b"
+    ],
+    "description": "Ocean light, distant cliffs and moving water under a soft coastal sky."
+  },
+  {
+    "id": "desert-road",
+    "title": "Desert Road",
+    "category": "Places",
+    "effect": "scene",
+    "scene": "road",
+    "colors": [
+      "#24140c",
+      "#e89a51",
+      "#ffdd9b"
+    ],
+    "description": "A cinematic road disappears into warm desert mountains and shifting sunset light."
+  },
+  {
+    "id": "rainy-metropolis",
+    "title": "Rainy Metropolis",
+    "category": "City",
+    "effect": "scene",
+    "scene": "city-rain",
+    "colors": [
+      "#070d18",
+      "#4b7fff",
+      "#ef4f93"
+    ],
+    "description": "Tall city lights reflect through animated rain and wet streets.",
+    "featured": true
+  },
+  {
+    "id": "neon-alley",
+    "title": "Neon Alley",
+    "category": "City",
+    "effect": "scene",
+    "scene": "alley",
+    "colors": [
+      "#070612",
+      "#ff3ec8",
+      "#27d8ff"
+    ],
+    "description": "A narrow neon-lit urban alley with pulsing signs and rain reflections."
+  },
+  {
+    "id": "skyline-midnight",
+    "title": "Skyline Midnight",
+    "category": "City",
+    "effect": "scene",
+    "scene": "skyline",
+    "colors": [
+      "#050814",
+      "#7aa5ff",
+      "#ffd36a"
+    ],
+    "description": "A modern night skyline with glowing windows, moving clouds and distant traffic."
+  },
+  {
+    "id": "rooftop-sunset",
+    "title": "Rooftop Sunset",
+    "category": "Youth",
+    "effect": "scene",
+    "scene": "rooftop",
+    "colors": [
+      "#181023",
+      "#ff6c63",
+      "#b37cff"
+    ],
+    "description": "A bold rooftop silhouette overlooking a city as sunset light slowly changes."
+  },
+  {
+    "id": "modern-office",
+    "title": "Modern Office",
+    "category": "Office",
+    "effect": "scene",
+    "scene": "office",
+    "colors": [
+      "#101722",
+      "#7fb7ff",
+      "#e5edf7"
+    ],
+    "description": "A clean modern workspace with glass reflections, monitor glow and moving daylight."
+  },
+  {
+    "id": "midnight-desk",
+    "title": "Midnight Desk",
+    "category": "Office",
+    "effect": "scene",
+    "scene": "desk",
+    "colors": [
+      "#08090f",
+      "#7b5cff",
+      "#59d9ff"
+    ],
+    "description": "A focused late-night desk setup with monitor glow and subtle ambient motion."
+  },
+  {
+    "id": "glass-boardroom",
+    "title": "Glass Boardroom",
+    "category": "Office",
+    "effect": "scene",
+    "scene": "boardroom",
+    "colors": [
+      "#101821",
+      "#9bc8e9",
+      "#d8e4ee"
+    ],
+    "description": "A sleek glass meeting room with a slowly shifting city view."
+  },
+  {
+    "id": "creative-studio",
+    "title": "Creative Studio",
+    "category": "Office",
+    "effect": "scene",
+    "scene": "studio",
+    "colors": [
+      "#130c16",
+      "#ff7ca8",
+      "#65d6ff"
+    ],
+    "description": "A colorful creative workspace with animated screen glow and soft city ambience."
+  },
+  {
+    "id": "street-rebel",
+    "title": "Street Rebel",
+    "category": "Youth",
+    "effect": "scene",
+    "scene": "street-youth",
+    "colors": [
+      "#07070a",
+      "#ff334f",
+      "#7d5cff"
+    ],
+    "description": "An edgy street-style silhouette under moving neon light — bold, modern and cinematic."
+  },
+  {
+    "id": "urban-rider",
+    "title": "Urban Rider",
+    "category": "Youth",
+    "effect": "scene",
+    "scene": "rider",
+    "colors": [
+      "#06080d",
+      "#ff5d35",
+      "#4ba5ff"
+    ],
+    "description": "A dramatic night rider silhouette with moving road lights and energetic city ambience."
+  },
+  {
+    "id": "night-runner",
+    "title": "Night Runner",
+    "category": "Youth",
+    "effect": "scene",
+    "scene": "runner",
+    "colors": [
+      "#060910",
+      "#37e5ff",
+      "#8a55ff"
+    ],
+    "description": "A fast-paced urban silhouette with luminous lanes and animated motion trails."
+  },
+  {
+    "id": "black-jacket",
+    "title": "Black Jacket",
+    "category": "Youth",
+    "effect": "scene",
+    "scene": "portrait-silhouette",
+    "colors": [
+      "#08080b",
+      "#ff395a",
+      "#d0d4df"
+    ],
+    "description": "A confident street-fashion silhouette surrounded by subtle red light and city haze."
+  },
+  {
+    "id": "coastal-drive",
+    "title": "Coastal Drive",
+    "category": "Places",
+    "effect": "scene",
+    "scene": "coastal-drive",
+    "colors": [
+      "#0a2030",
+      "#3aaee0",
+      "#ffb45c"
+    ],
+    "description": "A scenic coastal road with moving sun reflections and layered ocean depth."
+  },
+  {
+    "id": "old-town-lights",
+    "title": "Old Town Lights",
+    "category": "Places",
+    "effect": "scene",
+    "scene": "old-town",
+    "colors": [
+      "#17100c",
+      "#ffbe68",
+      "#5a6b8f"
+    ],
+    "description": "Warm evening streets, historic silhouettes and softly flickering lights."
+  }
+]
