@@ -1,4 +1,6 @@
 window.WALLPAPERS = [
+  {id:"crimson-grin",title:"Crimson Grin",category:"Dark",effect:"mask",colors:["#030304","#ff203f","#8d001f"],description:"An original abstract neon face with a subtle crimson grin.",featured:true},
+  {id:"violet-phantom",title:"Violet Phantom",category:"Dark",effect:"mask",colors:["#05030b","#a54cff","#ff4d92"],description:"A mysterious geometric face emerging from violet light."},
   {id:"crimson-void",title:"Crimson Void",category:"AMOLED",effect:"orbits",colors:["#050307","#ff2749","#8a001d"],description:"Dark crimson light orbiting through a true-black inspired field.",featured:true},
   {id:"violet-pulse",title:"Violet Pulse",category:"Abstract",effect:"pulse",colors:["#080611","#8f5cff","#ff4fa3"],description:"Soft violet energy rings with a neon pulse.",featured:true},
   {id:"aurora-drift",title:"Aurora Drift",category:"Nature",effect:"waves",colors:["#02100f","#17e3b2","#6e71ff"],description:"Slow flowing aurora ribbons over a deep night sky.",featured:true},
