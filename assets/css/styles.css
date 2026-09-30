@@ -482,3 +482,17 @@ main{max-width:1240px;margin:0 auto;padding:0 22px 100px}
   .download-choice-grid{grid-template-columns:1fr}
   .download-choice{min-height:78px}
 }
+
+@media (max-width:760px){
+  html.is-standalone .site-header{
+    top:0;
+    height:calc(48px + env(safe-area-inset-top,0px));
+    padding:env(safe-area-inset-top,0px) 12px 0;
+    gap:8px;
+  }
+  html.is-standalone body.is-offline .site-header{top:0}
+  html.is-standalone .brand-mark{width:32px;height:32px;border-radius:10px;font-size:16px}
+  html.is-standalone .brand-copy strong{font-size:11px}
+  html.is-standalone .icon-text-button{width:34px;height:34px;min-height:34px}
+  html.is-standalone .install-button{display:none!important}
+}
