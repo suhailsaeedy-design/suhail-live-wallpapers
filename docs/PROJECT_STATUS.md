@@ -6,7 +6,7 @@ Version 1 foundation is implemented.
 ## Included
 - Responsive mobile/desktop interface
 - Sticky navigation and mobile bottom navigation
-- 20 original procedural animated wallpaper presets
+- 22 original procedural animated wallpaper presets
 - Categories and search
 - Local favorites
 - Full-screen live preview
