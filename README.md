@@ -6,7 +6,7 @@ The project runs on GitHub Pages and does not require Apple Developer, Google Pl
 
 ## Current features
 
-- 58 wallpaper presets, with six approved photorealistic wallpapers shown first
+- 64 wallpaper presets, with six approved photorealistic wallpapers shown first
 - Nature, City, Places, Office, Youth, AMOLED, Dark, Abstract, Space, Cyber, Fire, Minimal, Calm and Luxury categories
 - Six uploaded photorealistic wallpapers: neon city rooftop, sunset office, Medina golden hour, Mecca tawaf night, coastal highway sunset and golden desert highway\n- Photorealistic wallpapers receive a subtle live pan/zoom preview and can be saved in their original uploaded image form
 - Six new live-effect engines: comets, fireflies, liquid light, expanding rings, snowfall and laser horizon effects\n- Additional animated scene presets for mountains, forests, coastlines, roads, rainy cities, offices, studios and youth/street themes
@@ -93,3 +93,5 @@ Development status is documented in `docs/PROJECT_STATUS.md`.
 MIT License — see `LICENSE`.
 
 Copyright © 2026 Suhail Saeedy / Suhail Labs.
+
+- New photorealistic-first set: Aurora Snowy Cabin, Tropical Lagoon Sunrise, Lavender Golden Hour, Skyline Reading Lounge, Grand Canyon Golden River and Sakura Koi Garden
