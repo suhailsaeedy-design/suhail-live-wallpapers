@@ -231,6 +231,7 @@
       case "stars": this.drawStars(time); break;
       case "lightning": this.drawLightning(time); break;
       case "nebula": this.drawNebula(time); break;
+      case "mask": this.drawMask(time); break;
       default: this.drawParticles(time);
     }
   };
@@ -426,6 +427,68 @@
       g.addColorStop(1, rgba(c[1], 0));
       ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
     }
+    ctx.restore();
+  };
+
+
+
+  CanvasWallpaper.prototype.drawMask = function (time) {
+    var ctx = this.ctx, w = this.width, h = this.height, c = this.wallpaper.colors;
+    var t = time * .001;
+    var cx = w * .5, cy = h * .43;
+    var eyeY = cy - h * .055;
+    var eyeGap = w * .18;
+    var eyeW = w * .18;
+    var eyeH = h * .032;
+    var glowAlpha = .62 + Math.sin(t * .8) * .08;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "screen";
+    ctx.shadowColor = c[1];
+    ctx.shadowBlur = Math.max(18, w * .08);
+    ctx.fillStyle = rgba(c[1], glowAlpha);
+
+    function eye(x, flip) {
+      ctx.beginPath();
+      ctx.moveTo(x - eyeW * .5, eyeY);
+      ctx.quadraticCurveTo(x, eyeY + eyeH * (flip ? .55 : .3), x + eyeW * .5, eyeY - eyeH * .18);
+      ctx.quadraticCurveTo(x, eyeY + eyeH * 1.5, x - eyeW * .5, eyeY);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.9)";
+      ctx.beginPath();
+      ctx.arc(x + (flip ? -1 : 1) * eyeW * .08, eyeY + eyeH * .48, Math.max(1.5, w * .009), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = rgba(c[1], glowAlpha);
+    }
+
+    eye(cx - eyeGap, false);
+    eye(cx + eyeGap, true);
+
+    ctx.shadowBlur = Math.max(15, w * .055);
+    ctx.strokeStyle = rgba(c[1], .72);
+    ctx.lineWidth = Math.max(1.5, w * .008);
+    ctx.beginPath();
+    ctx.moveTo(cx - w * .21, cy + h * .12);
+    ctx.quadraticCurveTo(cx, cy + h * (.22 + Math.sin(t * .45) * .006), cx + w * .21, cy + h * .12);
+    ctx.stroke();
+
+    ctx.strokeStyle = rgba(c[2], .28);
+    ctx.lineWidth = Math.max(1, w * .003);
+    for (var i = 0; i < 9; i += 1) {
+      var px = cx - w * .16 + i * w * .04;
+      var yy = cy + h * .15 + Math.sin((i / 8) * Math.PI) * h * .035;
+      ctx.beginPath();
+      ctx.moveTo(px, yy - h * .012);
+      ctx.lineTo(px + w * .008, yy + h * .015);
+      ctx.stroke();
+    }
+
+    var halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w, h) * .42);
+    halo.addColorStop(0, rgba(c[1], .08));
+    halo.addColorStop(.58, rgba(c[2], .025));
+    halo.addColorStop(1, rgba(c[0], 0));
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, w, h);
     ctx.restore();
   };
 
