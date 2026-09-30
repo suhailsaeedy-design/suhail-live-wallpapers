@@ -478,98 +478,258 @@
     if(!this.imageReady||!this.image)return;
 
     var img=this.image,iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
-    var cover=Math.max(w/iw,h/ih);
-    var motionScale=this.options.preview?1:0.62;
-    var breathe=prefersReducedMotion?0:Math.sin(time*.00018);
-    var scale=cover*(1.045+breathe*.006);
+    var scale=Math.max(w/iw,h/ih);
     var dw=iw*scale,dh=ih*scale;
-    var travelX=Math.max(0,dw-w),travelY=Math.max(0,dh-h);
-    var px=prefersReducedMotion?.5:(.5+.07*Math.sin(time*.00008+this.seed));
-    var py=prefersReducedMotion?.5:(.5+.05*Math.cos(time*.00007+this.seed*.01));
-    var dx=-travelX*px,dy=-travelY*py;
+    var dx=(w-dw)/2,dy=(h-dh)/2;
+
+    // Keep the photograph itself completely still.
     ctx.drawImage(img,dx,dy,dw,dh);
+    if(prefersReducedMotion)return;
 
-    if(!prefersReducedMotion){
-      var sx0=Math.max(0,-dx/scale),visibleW=Math.min(iw-sx0,w/scale);
-      var self=this;
-      function warpBand(startRatio,endRatio,amp,speed,frequency,phase,alpha){
-        var y0=Math.max(0,Math.floor(h*startRatio)),y1=Math.min(h,Math.ceil(h*endRatio));
-        var strip=self.options.preview?3:5;
-        ctx.save();ctx.globalAlpha=alpha;
-        for(var yy=y0;yy<y1;yy+=strip){
-          var sy=(yy-dy)/scale;
-          if(sy<0||sy>=ih)continue;
-          var sh=Math.min(strip/scale,ih-sy);
-          var shift=Math.sin(yy*frequency+time*speed+phase)*amp*motionScale;
-          var margin=Math.abs(amp*motionScale)+2;
-          ctx.drawImage(img,sx0,sy,visibleW,sh,-margin+shift,yy,w+margin*2,strip+1);
+    var preset=this.wallpaper.livePreset||"cinematic";
+    var self=this;
+
+    function rippleRegion(startRatio,endRatio,amplitude,speed,frequency,opacity){
+      var y0=Math.max(0,Math.floor(h*startRatio)),y1=Math.min(h,Math.ceil(h*endRatio));
+      var strip=self.options.preview?3:5;
+      ctx.save();ctx.globalAlpha=opacity;
+      for(var yy=y0;yy<y1;yy+=strip){
+        var sy=(yy-dy)/scale;
+        if(sy<0||sy>=ih)continue;
+        var sh=Math.min((strip+1)/scale,ih-sy);
+        var shift=Math.sin(yy*frequency+time*speed+self.seed*.001)*amplitude;
+        ctx.drawImage(img,0,sy,iw,sh,dx+shift,yy,dw,strip+1);
+      }
+      ctx.restore();
+
+      ctx.save();ctx.globalCompositeOperation="screen";
+      for(var i=0;i<7;i+=1){
+        var waveY=y0+(y1-y0)*(.08+i*.13)+Math.sin(time*.0012+i)*3;
+        ctx.beginPath();
+        for(var x=-20;x<=w+20;x+=14){
+          var wy=waveY+Math.sin(x*.033+time*.0018+i*.8)*2.2;
+          if(x===-20)ctx.moveTo(x,wy);else ctx.lineTo(x,wy);
         }
-        ctx.restore();
+        ctx.strokeStyle="rgba(255,226,170,"+(.025+i*.005)+")";
+        ctx.lineWidth=.7;ctx.stroke();
       }
+      ctx.restore();
+    }
 
-      var preset=this.wallpaper.livePreset||"cinematic";
-      if(["lagoon","coast","venice","iceland","lake","tawaf"].indexOf(preset)>=0) warpBand(.52,1,4.6,.0042,.035,this.seed*.01,.72);
-      if(["lavender","garden","wind","santorini","alpine"].indexOf(preset)>=0) warpBand(.48,1,2.8,.0032,.027,this.seed*.02,.46);
-      if(["aurora","sky","canyon","road","city","office","desert","balloons","mosque"].indexOf(preset)>=0) warpBand(0,.46,2.2,.0022,.022,this.seed*.015,.34);
+    function fallingPetals(startRatio,endRatio,count,colorA,colorB){
+      ctx.save();
+      for(var i=0;i<Math.min(count,self.items.length);i+=1){
+        var p=self.items[i],span=h*(endRatio-startRatio)+40;
+        var y=h*startRatio+((p.y+time*.020*(.35+p.speed))%span)-20;
+        var x=(p.x+Math.sin(time*.0008+p.phase)*24+w)%w;
+        var a=.12+p.z*.30;
+        ctx.fillStyle=i%3===0?colorA:colorB;
+        ctx.globalAlpha=a;
+        ctx.beginPath();
+        ctx.ellipse(x,y,1.2+p.z*2.0,.7+p.z*1.1,p.phase+time*.00055,0,Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
 
-      if(preset==="aurora"||preset==="iceland"){
-        ctx.save();ctx.globalCompositeOperation="screen";
-        for(var a=0;a<4;a+=1){
-          ctx.beginPath();
-          for(var ax=-30;ax<=w+30;ax+=12){
-            var ay=h*(.12+a*.075)+Math.sin(ax*.018+time*.0012+a*1.4)*18;
-            if(ax===-30)ctx.moveTo(ax,ay);else ctx.lineTo(ax,ay);
-          }
-          ctx.strokeStyle="rgba(74,255,183,"+(.055+a*.018)+")";
-          ctx.lineWidth=8+a*4;ctx.shadowBlur=18;ctx.shadowColor="#42ffc2";ctx.stroke();
+    function snow(count){
+      ctx.save();
+      for(var i=0;i<Math.min(count,self.items.length);i+=1){
+        var p=self.items[i],y=(p.y+time*.016*(.5+p.speed))%(h+24)-12;
+        var x=(p.x+Math.sin(time*.00065+p.phase)*10+w)%w;
+        ctx.fillStyle="rgba(255,255,255,"+(.10+p.z*.34)+")";
+        ctx.beginPath();ctx.arc(x,y,.6+p.z*1.6,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function rain(count){
+      ctx.save();ctx.lineCap="round";
+      for(var i=0;i<Math.min(count,self.items.length);i+=1){
+        var p=self.items[i],y=(p.y+time*.052*p.speed)%(h+48)-20;
+        ctx.beginPath();ctx.moveTo(p.x,y);ctx.lineTo(p.x-3,y+13+p.z*18);
+        ctx.strokeStyle="rgba(205,225,255,"+(.07+p.z*.21)+")";
+        ctx.lineWidth=.5+p.z;ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function aurora(){
+      ctx.save();ctx.globalCompositeOperation="screen";
+      for(var i=0;i<4;i+=1){
+        ctx.beginPath();
+        for(var x=-30;x<=w+30;x+=10){
+          var y=h*(.10+i*.07)+Math.sin(x*.018+time*.0010+i*1.35)*17+Math.sin(x*.006-time*.00055+i)*7;
+          if(x===-30)ctx.moveTo(x,y);else ctx.lineTo(x,y);
         }
-        ctx.restore();
+        ctx.strokeStyle="rgba(70,255,182,"+(.045+i*.016)+")";
+        ctx.lineWidth=7+i*4;ctx.shadowBlur=16;ctx.shadowColor="#42ffc2";ctx.stroke();
       }
+      ctx.restore();
+    }
 
-      if(preset==="raincity"){
-        ctx.save();ctx.lineCap="round";
-        for(var r=0;r<Math.min(72,this.items.length);r+=1){
-          var rp=this.items[r],ry=(rp.y+time*.055*rp.speed)%(h+45)-20;
-          ctx.beginPath();ctx.moveTo(rp.x,ry);ctx.lineTo(rp.x-3,ry+13+rp.z*18);
-          ctx.strokeStyle="rgba(205,225,255,"+(.08+rp.z*.22)+")";ctx.lineWidth=.5+rp.z;ctx.stroke();
-        }
-        ctx.restore();
+    function cloudMist(startRatio,endRatio){
+      ctx.save();
+      for(var i=0;i<8;i+=1){
+        var p=self.items[i],x=((p.x+time*.006*(.3+p.speed))%(w+180))-90;
+        var y=h*(startRatio+(endRatio-startRatio)*((i%5)/5))+Math.sin(time*.0003+p.phase)*7;
+        var r=35+p.z*55;
+        var g=ctx.createRadialGradient(x,y,0,x,y,r);
+        g.addColorStop(0,"rgba(255,255,255,"+(.018+p.z*.018)+")");
+        g.addColorStop(1,"rgba(255,255,255,0)");
+        ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
       }
+      ctx.restore();
+    }
 
-      if(preset==="snow"||preset==="alpine"){
-        ctx.save();
-        for(var s=0;s<Math.min(70,this.items.length);s+=1){
-          var sp=this.items[s],sy2=(sp.y+time*.018*sp.speed)%(h+20)-10;
-          var sx2=(sp.x+Math.sin(time*.0007+sp.phase)*12+w)%w;
-          ctx.fillStyle="rgba(255,255,255,"+(.10+sp.z*.34)+")";
-          ctx.beginPath();ctx.arc(sx2,sy2,.6+sp.z*1.7,0,Math.PI*2);ctx.fill();
-        }
-        ctx.restore();
-      }
+    function warmFlicker(cx,cy,radius){
+      var flicker=.5+.5*Math.sin(time*.0042+self.seed);
+      var g=ctx.createRadialGradient(w*cx,h*cy,0,w*cx,h*cy,Math.max(w,h)*radius);
+      g.addColorStop(0,"rgba(255,174,78,"+(.022+flicker*.028)+")");
+      g.addColorStop(1,"rgba(255,174,78,0)");
+      ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    }
 
-      if(preset==="garden"){
-        ctx.save();
-        for(var p=0;p<Math.min(34,this.items.length);p+=1){
-          var pp=this.items[p],py2=(pp.y+time*.012*(.4+pp.speed))%(h+30)-15;
-          var px2=(pp.x+Math.sin(time*.0008+pp.phase)*28+w)%w;
-          ctx.fillStyle=p%3===0?"rgba(255,190,221,.42)":"rgba(255,226,238,.28)";
-          ctx.beginPath();ctx.ellipse(px2,py2,1.2+pp.z*1.8,.7+pp.z,pp.phase+time*.0005,0,Math.PI*2);ctx.fill();
-        }
-        ctx.restore();
+    function embers(count){
+      ctx.save();ctx.globalCompositeOperation="screen";
+      for(var i=0;i<Math.min(count,self.items.length);i+=1){
+        var p=self.items[i],y=h*.78-((p.y+time*.018*(.4+p.speed))%(h*.28));
+        var x=w*.48+Math.sin(time*.001+p.phase)*(24+p.z*34);
+        ctx.fillStyle=i%3===0?"rgba(255,225,140,.45)":"rgba(255,120,45,.38)";
+        ctx.beginPath();ctx.arc(x,y,.6+p.z*1.5,0,Math.PI*2);ctx.fill();
       }
+      ctx.restore();
+    }
 
-      if(preset==="camp"||preset==="office"||preset==="city"||preset==="mosque"){
-        var flicker=.5+.5*Math.sin(time*.0043+this.seed);
-        var glow=ctx.createRadialGradient(w*.55,h*.62,0,w*.55,h*.62,Math.max(w,h)*.58);
-        glow.addColorStop(0,"rgba(255,174,78,"+(.018+flicker*.018)+")");glow.addColorStop(1,"rgba(255,174,78,0)");
-        ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+    function twinkleLights(count,startRatio,endRatio){
+      ctx.save();ctx.globalCompositeOperation="screen";
+      for(var i=0;i<Math.min(count,self.items.length);i+=1){
+        var p=self.items[i];
+        if(p.y<h*startRatio||p.y>h*endRatio)continue;
+        var pulse=.15+.35*(.5+.5*Math.sin(time*.003+p.phase));
+        var color=i%3===0?"#ffd38b":"#d8edff";
+        ctx.fillStyle=rgba(color,pulse);
+        ctx.beginPath();ctx.arc(p.x,p.y,.45+p.z*1.15,0,Math.PI*2);ctx.fill();
       }
+      ctx.restore();
+    }
+
+    function birds(count){
+      ctx.save();ctx.lineWidth=.8;ctx.strokeStyle="rgba(20,20,25,.34)";
+      for(var i=0;i<count;i+=1){
+        var p=self.items[i],x=(p.x+time*.010*(.2+p.speed))%(w+30)-15,y=h*.12+(p.y%(h*.24));
+        var s=1.5+p.z*2;
+        ctx.beginPath();ctx.moveTo(x-s,y);ctx.quadraticCurveTo(x,y-s,x+s,y);
+        ctx.moveTo(x+s,y);ctx.quadraticCurveTo(x+s*2,y-s*.7,x+s*3,y);ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function balloons(count){
+      ctx.save();
+      for(var i=0;i<count;i+=1){
+        var p=self.items[i],x=(p.x+Math.sin(time*.00025+p.phase)*8+w)%w;
+        var y=h*.12+((p.y+time*.0025*(.25+p.speed))%(h*.36));
+        var s=2+p.z*3.5,alpha=.10+p.z*.12;
+        ctx.fillStyle=i%2?"rgba(226,105,58,"+alpha+")":"rgba(245,191,88,"+alpha+")";
+        ctx.beginPath();ctx.ellipse(x,y,s,s*1.25,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle="rgba(60,35,22,"+(alpha*.8)+")";ctx.fillRect(x-.6,y+s*1.25,1.2,1.4);
+      }
+      ctx.restore();
+    }
+
+    function tawafOrbit(){
+      var cx=w*.5,cy=h*.69,rx=w*.24,ry=h*.105;
+      ctx.save();
+      for(var i=0;i<34;i+=1){
+        var p=self.items[i],a=p.phase+time*.00045*(.45+p.speed);
+        var x=cx+Math.cos(a)*rx*(.35+p.z*.65);
+        var y=cy+Math.sin(a)*ry*(.35+p.z*.65);
+        ctx.fillStyle=i%5===0?"rgba(18,18,20,.20)":"rgba(255,255,255,.20)";
+        ctx.beginPath();ctx.arc(x,y,.45+p.z*.9,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    switch(preset){
+      case "venice":
+        rippleRegion(.48,1,3.4,.0032,.037,.88);
+        twinkleLights(26,.18,.64);
+        break;
+      case "lagoon":
+        rippleRegion(.43,1,3.1,.0030,.034,.86);
+        cloudMist(.05,.26);
+        break;
+      case "coast":
+        rippleRegion(.43,1,3.7,.0034,.036,.86);
+        cloudMist(.05,.25);
+        break;
+      case "iceland":
+        rippleRegion(.58,1,3.0,.0032,.039,.80);
+        aurora();
+        break;
+      case "aurora":
+        aurora();
+        snow(34);
+        break;
+      case "garden":
+        rippleRegion(.63,1,2.5,.0030,.038,.78);
+        fallingPetals(.02,1,42,"rgba(255,182,215,.48)","rgba(255,231,239,.34)");
+        break;
+      case "lavender":
+        fallingPetals(.05,1,30,"rgba(160,112,220,.30)","rgba(235,205,255,.24)");
+        cloudMist(.04,.24);
+        break;
+      case "santorini":
+        fallingPetals(.02,1,24,"rgba(255,96,123,.34)","rgba(255,190,205,.24)");
+        rippleRegion(.44,.72,2.0,.0026,.041,.55);
+        break;
+      case "alpine":
+        rippleRegion(.56,1,2.8,.0028,.038,.82);
+        cloudMist(.16,.38);
+        snow(18);
+        break;
+      case "raincity":
+        rain(72);
+        rippleRegion(.72,1,2.4,.0035,.045,.54);
+        twinkleLights(24,.20,.70);
+        break;
+      case "camp":
+        warmFlicker(.50,.73,.24);
+        embers(30);
+        break;
+      case "office":
+        twinkleLights(32,.08,.66);
+        warmFlicker(.42,.58,.32);
+        break;
+      case "mosque":
+        warmFlicker(.55,.70,.38);
+        birds(8);
+        break;
+      case "tawaf":
+        warmFlicker(.50,.70,.42);
+        tawafOrbit();
+        break;
+      case "balloons":
+        balloons(12);
+        cloudMist(.05,.34);
+        break;
+      case "canyon":
+        cloudMist(.05,.30);
+        warmFlicker(.54,.46,.36);
+        break;
+      case "road":
+        cloudMist(.02,.24);
+        twinkleLights(10,.54,.80);
+        break;
+      default:
+        twinkleLights(16,.10,.72);
     }
 
     var shade=ctx.createLinearGradient(0,0,0,h);
-    shade.addColorStop(0,"rgba(0,0,0,.025)");
-    shade.addColorStop(.72,"rgba(0,0,0,.015)");
-    shade.addColorStop(1,"rgba(0,0,0,.16)");
+    shade.addColorStop(0,"rgba(0,0,0,.015)");
+    shade.addColorStop(.75,"rgba(0,0,0,.01)");
+    shade.addColorStop(1,"rgba(0,0,0,.12)");
     ctx.fillStyle=shade;ctx.fillRect(0,0,w,h);
   };
 
