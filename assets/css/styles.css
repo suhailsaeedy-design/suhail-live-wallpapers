@@ -359,17 +359,17 @@ main{max-width:1240px;margin:0 auto;padding:0 22px 100px}
   .desktop-nav{display:none}
 }
 @media(max-width:760px){
-  :root{--header:66px}
+  :root{--header:54px}
   .offline-bar{justify-content:flex-start;overflow:hidden;white-space:nowrap}
   .offline-bar span:last-child{overflow:hidden;text-overflow:ellipsis}
   body.is-offline .site-header{top:36px}
-  .site-header{padding:0 14px;gap:10px}
+  .site-header{padding:0 12px;gap:8px}
   .brand-copy small{display:none}
   .brand-copy strong{font-size:12px}
-  .brand-mark{width:38px;height:38px}
+  .brand-mark{width:34px;height:34px;border-radius:11px;font-size:17px}
   .header-actions{gap:6px}
   .network-pill{display:none}
-  .icon-text-button{width:38px;height:38px;padding:0;display:grid;place-items:center}
+  .icon-text-button{width:36px;height:36px;min-height:36px;padding:0;display:grid;place-items:center}
   .theme-label{display:none}
   .install-button{padding:9px 11px;font-size:11px}
   main{padding:0 14px 90px}
@@ -426,7 +426,7 @@ main{max-width:1240px;margin:0 auto;padding:0 22px 100px}
   .preview-info>div:first-child p{display:none}
   .preview-actions{margin-top:12px;display:grid;grid-template-columns:1fr 1fr}
   .preview-actions .button{padding:11px 9px}
-  .preview-actions .button:last-child{grid-column:1/-1}
+  .preview-actions .button:last-child{grid-column:auto}
   .microcopy{margin-bottom:0}
 }
 @media(max-width:390px){
@@ -436,4 +436,49 @@ main{max-width:1240px;margin:0 auto;padding:0 22px 100px}
 }
 @media(prefers-reduced-motion:reduce){
   *{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+/* Download format chooser */
+.download-sheet{position:fixed;inset:0;z-index:220;display:grid;place-items:end center;padding:18px}
+.download-sheet[hidden]{display:none}
+.download-sheet-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.download-sheet-card{
+  position:relative;z-index:2;width:min(520px,100%);padding:14px 18px 18px;border:1px solid var(--line-strong);
+  border-radius:26px;background:var(--surface);box-shadow:var(--shadow)
+}
+.download-sheet-handle{width:44px;height:4px;border-radius:99px;background:var(--line-strong);margin:0 auto 18px}
+.download-sheet-card h2{font-size:26px;letter-spacing:-.035em;margin:7px 0 8px}
+.download-sheet-card>p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 16px}
+.download-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.download-choice{
+  min-height:94px;text-align:left;display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);
+  border-radius:18px;background:var(--surface-2);cursor:pointer
+}
+.download-choice:hover{border-color:var(--line-strong);transform:translateY(-1px)}
+.download-choice-icon{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);font-size:20px}
+.download-choice span:last-child{display:grid;gap:4px}
+.download-choice strong{font-size:13px}
+.download-choice small{font-size:10px;color:var(--muted)}
+.download-cancel{width:100%;margin-top:10px}
+
+/* iPhone / iPad installed-PWA header: compact, tappable, and below the status area. */
+@media (display-mode: standalone) and (max-width:760px){
+  .site-header{
+    top:0;
+    height:calc(48px + env(safe-area-inset-top,0px));
+    padding:env(safe-area-inset-top,0px) 12px 0;
+    gap:8px;
+  }
+  body.is-offline .site-header{top:0}
+  .brand-mark{width:32px;height:32px;border-radius:10px;font-size:16px}
+  .brand-copy strong{font-size:11px}
+  .icon-text-button{width:34px;height:34px;min-height:34px}
+  .install-button{display:none!important}
+  main{padding-top:0}
+}
+@media (max-width:760px){
+  .download-sheet{padding:0 10px max(10px,env(safe-area-inset-bottom))}
+  .download-sheet-card{border-radius:24px 24px 20px 20px}
+  .download-choice-grid{grid-template-columns:1fr}
+  .download-choice{min-height:78px}
 }
