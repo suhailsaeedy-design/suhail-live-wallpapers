@@ -1,0 +1,155 @@
+name: Build free Apple Live Photo
+on:
+  push:
+    paths:
+      - '.github/workflows/build-free-live-photo.yml'
+permissions:
+  contents: read
+jobs:
+  build-live-photo:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare source wallpaper
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p livephoto-work output
+          curl -L --fail --retry 3 'https://cdn.openart.ai/openart-uploads/production/attachment-transfers/bfb7dd21020cbc3a58ea31630b0130c5363c0893c5f6943d0f6ff1fbd274a9d6.png' -o livephoto-work/source.png
+          python3 -m pip install --quiet pillow
+
+      - name: Create watermark-free localized motion clip
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > livephoto-work/make_motion.py <<'PY'
+          from PIL import Image, ImageDraw, ImageFilter, ImageEnhance
+          import math, random, subprocess
+
+          W,H,FPS,DURATION=1080,1920,15,3
+          src=Image.open("livephoto-work/source.png").convert("RGB")
+          sw,sh=src.size
+          scale=max(W/sw,H/sh)
+          nw,nh=int(sw*scale),int(sh*scale)
+          src=src.resize((nw,nh),Image.Resampling.LANCZOS)
+          left=(nw-W)//2
+          top=(nh-H)//2
+          base=src.crop((left,top,left+W,top+H))
+
+          rng=random.Random(240921)
+          rain=[]
+          for _ in range(180):
+              rain.append([
+                  rng.randrange(-120,W+120),
+                  rng.randrange(-H,H),
+                  rng.uniform(5.0,12.0),
+                  rng.uniform(14,34),
+                  rng.uniform(0.16,0.42),
+                  rng.uniform(-6,-2)
+              ])
+
+          cmd=[
+              "ffmpeg","-y","-loglevel","error",
+              "-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-",
+              "-an","-c:v","libx264","-preset","medium","-crf","18","-pix_fmt","yuv420p",
+              "-movflags","+faststart","livephoto-work/motion.mov"
+          ]
+          proc=subprocess.Popen(cmd,stdin=subprocess.PIPE)
+
+          frames=FPS*DURATION
+          for fi in range(frames):
+              t=fi/FPS
+              frame=base.copy().convert("RGBA")
+
+              # Gentle storm-cloud movement restricted to the top sky.
+              fog=Image.new("RGBA",(W,H),(0,0,0,0))
+              fd=ImageDraw.Draw(fog,"RGBA")
+              for j in range(6):
+                  cx=(120+j*230+int(t*(7+j)))%(W+300)-150
+                  cy=130+j*45
+                  rx=220+j*20
+                  ry=95+j*10
+                  fd.ellipse((cx-rx,cy-ry,cx+rx,cy+ry),fill=(48,35,52,9+j))
+              fog=fog.filter(ImageFilter.GaussianBlur(28))
+              frame=Image.alpha_composite(frame,fog)
+
+              # Subtle red moon/light breathing: overlay only, no image movement.
+              glow=Image.new("RGBA",(W,H),(0,0,0,0))
+              gd=ImageDraw.Draw(glow,"RGBA")
+              pulse=(math.sin(t*math.pi*2/3)+1)/2
+              gd.ellipse((650,25,1080,455),fill=(255,34,28,int(7+5*pulse)))
+              glow=glow.filter(ImageFilter.GaussianBlur(34))
+              frame=Image.alpha_composite(frame,glow)
+
+              # Rain overlay. Base photograph never moves or warps.
+              overlay=Image.new("RGBA",(W,H),(0,0,0,0))
+              od=ImageDraw.Draw(overlay,"RGBA")
+              for x0,y0,speed,length,alpha,slant in rain:
+                  y=(y0+t*speed*120)%(H+180)-90
+                  x=x0 + math.sin(t*0.9 + x0*0.01)*2.0
+                  od.line((x,y,x+slant,y+length),fill=(210,225,245,int(255*alpha)),width=1)
+              overlay=overlay.filter(ImageFilter.GaussianBlur(0.25))
+              frame=Image.alpha_composite(frame,overlay)
+
+              # Very small wet-rooftop shimmer confined to lower part.
+              shine=Image.new("RGBA",(W,H),(0,0,0,0))
+              sd=ImageDraw.Draw(shine,"RGBA")
+              for j in range(12):
+                  yy=int(H*0.78+j*18+math.sin(t*2.0+j)*1.3)
+                  aa=8+(j%3)*2
+                  sd.line((60,yy,W-60,yy),fill=(255,42,36,aa),width=1)
+              frame=Image.alpha_composite(frame,shine)
+
+              proc.stdin.write(frame.convert("RGB").tobytes())
+
+          proc.stdin.close()
+          rc=proc.wait()
+          if rc!=0:
+              raise SystemExit(rc)
+
+          # Static cover from the exact unchanged base image.
+          base.save("livephoto-work/cover.jpg",quality=96,subsampling=0)
+          PY
+          python3 livephoto-work/make_motion.py
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 livephoto-work/motion.mov
+
+      - name: Build a real Apple Live Photo pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/minutechreview/livephoto-maker.git livephoto-work/livephoto-maker-src
+          cd livephoto-work/livephoto-maker-src
+          swiftc -O -o livephoto-maker livephoto-maker.swift
+          cd ../..
+          ./livephoto-work/livephoto-maker-src/livephoto-maker livephoto-work/motion.mov --poster first --out output/CrimsonMoonLive
+
+      - name: Verify and package
+        shell: bash
+        run: |
+          set -euo pipefail
+          ls -lh output
+          test -f output/CrimsonMoonLive.HEIC
+          test -f output/CrimsonMoonLive.MOV
+          cat > output/README.txt <<'TXT'
+          Crimson Moon Live — Apple Live Photo
+          Files:
+          - CrimsonMoonLive.HEIC  (key photo)
+          - CrimsonMoonLive.MOV   (paired motion resource)
+
+          These two files share the Apple Live Photo identifier and timed still-image metadata.
+          Keep both files together as one Live Photo pair.
+          TXT
+          ditto -c -k --sequesterRsrc --keepParent output CrimsonMoonLive-Apple-Live-Photo.zip
+
+      - name: Upload finished Live Photo
+        uses: actions/upload-artifact@v4
+        with:
+          name: CrimsonMoonLive-Apple-Live-Photo
+          path: |
+            output/CrimsonMoonLive.HEIC
+            output/CrimsonMoonLive.MOV
+            output/README.txt
+            CrimsonMoonLive-Apple-Live-Photo.zip
+          if-no-files-found: error
+          retention-days: 1
