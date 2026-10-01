@@ -17,6 +17,7 @@ jobs:
           set -euo pipefail
           mkdir -p livephoto-work output
           curl -L --fail --retry 3 'https://cdn.openart.ai/openart-uploads/production/attachment-transfers/bfb7dd21020cbc3a58ea31630b0130c5363c0893c5f6943d0f6ff1fbd274a9d6.png' -o livephoto-work/source.png
+          brew install ffmpeg
           python3 -m venv livephoto-work/venv
           source livephoto-work/venv/bin/activate
           python -m pip install --quiet pillow
